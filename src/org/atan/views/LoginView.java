@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 public class LoginView extends JPanel{
@@ -25,6 +26,7 @@ public class LoginView extends JPanel{
 	private JTextField emailField;
 	private JPasswordField passwordField;
 	private JButton loginButton;
+	private JLabel errorMessageLabel;
 	
 	public LoginView() {
 		super();
@@ -49,17 +51,7 @@ public class LoginView extends JPanel{
 		emailField = new JTextField();
 		emailField.setBounds(210, 160, 200, 35);
 		
-	/*	emailField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (emailField.getText().length() >= 8) {
-					e.consume();
-				} else if (e.getKeyChar() < 48 || e.getKeyChar() > 57) {
-					e.consume();
-				}
-			}
-		});
-*/		this.add(label);
+		this.add(label);
 		this.add(emailField);
 	}
 	
@@ -92,6 +84,52 @@ public class LoginView extends JPanel{
 		this.add(loginButton);
 	}
 	
+	private void createAccountType() {    
+        JLabel label = new JLabel(
+            "Select the account type:",
+            SwingConstants.CENTER
+        );
+        label.setBounds(100, 80, 300, 50);
+        
+        JPanel radios = new JPanel();
+        JRadioButton student = new JRadioButton("Student");
+        JRadioButton teacher = new JRadioButton("Teacher");
+        JRadioButton admin = new JRadioButton("Admin");
+        
+        radios.add(student);
+        radios.add(teacher);
+        radios.add(admin);
+        
+        radios.setBounds(90, 110, 300, 50);
+        
+        this.add(label, BorderLayout.NORTH);
+        this.add(radios, BorderLayout.CENTER);
+	}
+	
+	public void showError(boolean error) {
+		if (error) {
+			errorMessageLabel.setText("Invalid account number and/or PIN.");
+	    } else {
+	        errorMessageLabel.setText("");
+		}
+	}
+	
+	private void createErrorMessageLabel() {
+        errorMessageLabel = new JLabel("", SwingConstants.CENTER);
+        errorMessageLabel.setBounds(0, 110, 500, 35);
+        errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessageLabel.setForeground(Color.RED);
+
+        this.add(errorMessageLabel);
+    }
+	
+	public void clear() {
+		emailField.setText("");
+		passwordField.setText("");
+		
+		showError(false);
+	}
+	
 	public void createAndShowGui() {
 		this.setLayout(null);
 		
@@ -99,7 +137,11 @@ public class LoginView extends JPanel{
 		createPasswordField();
 		createEmailAddressField();
 		createLoginButton();
+		createErrorMessageLabel();
+		createAccountType();
 	}
+	
+	
 
 	public static void main(String[] args) {
 		//new LoginView1().createAndShowGui();
