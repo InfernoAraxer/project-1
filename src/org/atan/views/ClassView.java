@@ -3,35 +3,40 @@ package org.atan.views;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
 
+import org.atan.controller.ViewController;
 import org.atan.model.ClassList;
-import org.atan.model.ClassPanels;
 import org.atan.users.Classes;
 import org.atan.users.StudentAccount;
+import org.atan.users.TeacherAccount;
 
 public class ClassView extends JPanel{
 	
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
+	private ViewController manager;
 	
-	public ClassView() {
+	public ClassView(ViewController manager) {
 		super();
+		
+		this.manager = manager;
 		
 		this.init();
 	}
@@ -43,6 +48,7 @@ public class ClassView extends JPanel{
 		createAccountID();
 		createLogoutButton();
 		createClassList();
+		createSettingsIcon();
 	}
 	
 	private void createAccountName() {
@@ -73,6 +79,12 @@ public class ClassView extends JPanel{
         this.add(logoutButton);
     }
 	
+	private void createSettingsIcon() {
+		JButton settings = new JButton("Settings");
+		settings.setBounds(305, 10, 90, 40);
+		this.add(settings);
+	}
+	
 	public void createClassList() {
 		JPanel views = new JPanel(new CardLayout());
 		
@@ -85,38 +97,4 @@ public class ClassView extends JPanel{
 		accountName.setText("Account Name: " + StudentAccount.getName());
 		accountID.setText("Account ID: " + StudentAccount.getStudentID());
 	}
-	/*
-	public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-
-        if (source.equals(actionChooser)) {
-            switch (actionChooser.getSelectedIndex()) {
-                case 0:
-                    clear();
-                    toggleDollarAmountField(false);
-                    toggleAccountField(false);
-    
-                    break;
-                case 1:
-                    // intentionally fall through
-                case 2:
-                    clear();
-                    toggleDollarAmountField(true);
-                    toggleAccountField(false);
-    
-                    break;
-                case 3:
-                    clear();
-                    toggleDollarAmountField(true);
-                    toggleAccountField(true);
-    
-                    break;
-            }
-        } else if (source.equals(submitButton)) {
-            // we'll come back to this
-        } else if (source.equals(logoutButton)) {
-            // we'll come back to this
-        }
-    }
-	*/
 }

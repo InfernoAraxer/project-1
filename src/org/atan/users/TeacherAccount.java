@@ -6,7 +6,7 @@ public class TeacherAccount {
 	private String lastName;
 	private long phoneNumber;
 	private String emailAddress;
-	private static long nextTeacherID = 20000001L;
+	private static long nextTeacherID = 2000001L;
 	private String password;
 	private long teacherID;
 	
@@ -24,7 +24,7 @@ public class TeacherAccount {
 		return (firstName + " " + lastName);
 	}
 	
-	public String password() {
+	public String getPassword() {
 		return password;
 	}
 	
@@ -39,4 +39,5 @@ public class TeacherAccount {
 	public long getPhoneNumber() {
 		return phoneNumber;
 	}
+ 
 }

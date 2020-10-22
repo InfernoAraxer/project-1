@@ -1,7 +1,5 @@
 package org.atan.views;
 
-import java.lang.ClassLoader;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,16 +19,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 
-public class SettingsView extends JPanel {
+import org.atan.controller.ViewController;
+import org.atan.model.ClassList;
+import org.atan.users.Classes;
+import org.atan.users.StudentAccount;
+import org.atan.users.TeacherAccount;
+
+public class TeacherView extends JPanel{
 	
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
+	private ViewController manager;
 	
-	public SettingsView() {
+	public TeacherView(ViewController manager) {
 		super();
+		
+		this.manager = manager;
 		
 		this.init();
 	}
@@ -42,6 +48,7 @@ public class SettingsView extends JPanel {
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
+		createClassList();
 	}
 	
 	private void createAccountName() {
@@ -76,5 +83,18 @@ public class SettingsView extends JPanel {
 		JButton settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
 		this.add(settings);
+	}
+	
+	public void createClassList() {
+		JPanel views = new JPanel(new CardLayout());
+		
+		views.add(new ClassList(), "CLASS_LIST");
+		views.setBounds(5, 65, 475, 100*(int) (Classes.nextClassID - 5000000));
+		this.add(views);
+	}
+	
+	public void populate(TeacherAccount TeacherAccount) {
+		accountName.setText("Account Name: " + TeacherAccount.getName());
+		accountID.setText("Account ID: " + TeacherAccount.getTeacherID());
 	}
 }

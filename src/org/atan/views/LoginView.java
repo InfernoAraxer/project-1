@@ -19,17 +19,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
+
+import org.atan.controller.ViewController;
 
 public class LoginView extends JPanel{
 	
+	private ViewController manager;
 	private JTextField emailField;
 	private JPasswordField passwordField;
 	private JButton loginButton;
 	private JLabel errorMessageLabel;
+	private JRadioButton student;
+	private JRadioButton teacher;
+	private JRadioButton admin;
 	
-	public LoginView() {
+	public LoginView(ViewController manager) {
 		super();
+		
+		this.manager = manager;
 		
 		this.createAndShowGui();
 	}
@@ -77,7 +86,24 @@ public class LoginView extends JPanel{
 				Object source = e.getSource();
 				
 				if (source.equals(loginButton)) {
-					//
+					if (student.isSelected()) {
+						String emailAddress = emailField.getText();
+						char[] password = passwordField.getPassword();
+						
+						manager.login(emailAddress, password, 1);
+					} else if (teacher.isSelected()) {
+						String emailAddress = emailField.getText();
+						char[] password = passwordField.getPassword();
+						
+						manager.login(emailAddress, password, 2);
+					} else if (admin.isSelected()) {
+						String emailAddress = emailField.getText();
+						char[] password = passwordField.getPassword();
+						
+						manager.login(emailAddress, password, 3);
+					} else {
+						errorMessageLabel.setText("Please Select An Account Type.");
+					}
 				}
 			}
 		});
@@ -91,24 +117,44 @@ public class LoginView extends JPanel{
         );
         label.setBounds(100, 80, 300, 50);
         
-        JPanel radios = new JPanel();
-        JRadioButton student = new JRadioButton("Student");
-        JRadioButton teacher = new JRadioButton("Teacher");
-        JRadioButton admin = new JRadioButton("Admin");
+        JPanel radio = new JPanel();
+        student = new JRadioButton("Student");
+        teacher = new JRadioButton("Teacher");
+        admin = new JRadioButton("Admin");
         
-        radios.add(student);
-        radios.add(teacher);
-        radios.add(admin);
+        ButtonGroup g = new ButtonGroup();
         
-        radios.setBounds(90, 110, 300, 50);
+        radio.add(student);
+        radio.add(teacher);
+        radio.add(admin);
+      
+        g.add(student);
+        g.add(teacher);
+        g.add(admin);
+        
+        radio.setBounds(90, 110, 300, 50);
         
         this.add(label, BorderLayout.NORTH);
-        this.add(radios, BorderLayout.CENTER);
+        this.add(radio, BorderLayout.CENTER);
+        
+
+	}
+	
+	public void createAccountCreation() {
+		JButton createAccount = new JButton("Create an Account");
+		createAccount.setBounds(210, 310, 200, 35);
+		createAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+			}
+		});
+		
+		this.add(createAccount);
 	}
 	
 	public void showError(boolean error) {
 		if (error) {
-			errorMessageLabel.setText("Invalid account number and/or PIN.");
+			errorMessageLabel.setText("Invalid email and/or password.");
 	    } else {
 	        errorMessageLabel.setText("");
 		}
@@ -116,7 +162,7 @@ public class LoginView extends JPanel{
 	
 	private void createErrorMessageLabel() {
         errorMessageLabel = new JLabel("", SwingConstants.CENTER);
-        errorMessageLabel.setBounds(0, 110, 500, 35);
+        errorMessageLabel.setBounds(0, 450, 500, 35);
         errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
         errorMessageLabel.setForeground(Color.RED);
 
@@ -139,11 +185,20 @@ public class LoginView extends JPanel{
 		createLoginButton();
 		createErrorMessageLabel();
 		createAccountType();
+		createAccountCreation();
 	}
 	
 	
 
 	public static void main(String[] args) {
 		//new LoginView1().createAndShowGui();
+	}
+
+	public void toggleErrorMessage(boolean show) {
+		if (show) {
+            errorMessageLabel.setText("Invalid account number and/or PIN.");
+        } else {
+            errorMessageLabel.setText("");
+        }
 	}
 }

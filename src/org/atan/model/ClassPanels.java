@@ -14,17 +14,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 
 
 import org.atan.GUI;
+import org.atan.controller.ViewController;
 import org.atan.users.Classes;
+import org.atan.users.TeacherAccount;
 
 
-public class ClassPanels extends JPanel{
-	JLabel className;
-	JLabel classID;
-	JButton assignments;
+public class ClassPanels extends JPanel implements ActionListener{
+	private JLabel className;
+	private JLabel classID;
+	private JButton assignments;
+	private JComboBox scheduleTime;
+	private static TeacherAccount teacher;
+	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
 	public ClassPanels(int i) {
 		super();
@@ -40,7 +46,10 @@ public class ClassPanels extends JPanel{
 		createCheckAssignments();
 		addTeacherPicture();
 		addTeacherName();
-		addTimeSlot();
+	}
+	
+	public static void giveTeacherAccount(TeacherAccount teacher) {
+		ClassPanels.teacher = teacher;
 	}
 	
 	private void createClassName(Classes classes) {
@@ -75,7 +84,9 @@ public class ClassPanels extends JPanel{
 		// add later
 	}
 	
-	private void addTimeSlot() {
-		// add later
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

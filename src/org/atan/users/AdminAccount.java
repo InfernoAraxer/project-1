@@ -23,7 +23,7 @@ public class AdminAccount {
 		return (firstName + " " + lastName);
 	}
 	
-	public String password() {
+	public String getPassword() {
 		return password;
 	}
 	

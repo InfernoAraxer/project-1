@@ -8,10 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import org.atan.controller.ViewController;
 import org.atan.model.ClassList;
 import org.atan.model.ClassPanels;
-import org.atan.views.ClassView;
-import org.atan.views.LoginView;
+import org.atan.views.*;
 import org.atan.users.*;
 
 /*
@@ -20,9 +20,23 @@ import org.atan.users.*;
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(50, 30, 50, 500);
  */
+@SuppressWarnings("serial")
 public class GUI extends JFrame{
 
+	public static final String LOGIN_VIEW = "LOGIN_VIEW";
+	public static final String TEACHER_VIEW = "TEACHER_VIEW";
+	public static final String ADMIN_VIEW = "ADMIN_VIEW";
+	public static final String CLASS_VIEW = "CLASS_VIEW";
+	
+	public static final int LOGIN_VIEW_INDEX = 0;
+	public static final int TEACHER_VIEW_INDEX = 1;
+	public static final int ADMIN_VIEW_INDEX = 3;
+	public static final int CLASS_VIEW_INDEX = 2;
+	
 	public static ArrayList<Classes> classes;
+	public static ArrayList<AdminAccount> admins;
+	public static ArrayList<TeacherAccount> teachers;
+	public static ArrayList<StudentAccount> students;
 	
 	@SuppressWarnings("static-access")
 	public GUI() {
@@ -34,14 +48,23 @@ public class GUI extends JFrame{
 		classes.add(new Classes("AP Computer Science"));
 		classes.add(new Classes("AP Microeconomics"));
 		
-		System.out.print(classes.get(1).getClassID());
+		teachers = new ArrayList<TeacherAccount>();
+		students = new ArrayList<StudentAccount>();
+		admins = new ArrayList<AdminAccount>();
 		
+		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "rwilson@gmail.com", "poopygod"));
+		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
+		students.add(new StudentAccount("Alex", "Tan", 9083164190L, "x", "p"));
 	}
 	
 	private void init() {
 		JPanel views = new JPanel(new CardLayout());
+		ViewController manager = new ViewController(views);
 		
-		views.add(new LoginView(), "CLASS_VIEW");
+		views.add(new LoginView(manager), "LOGIN_VIEW");
+		views.add(new TeacherView(manager), "TEACHER_VIEW");
+		views.add(new ClassView(manager), "CLASS_VIEW");
+		views.add(new AdminView(manager), "ADMIN_VIEW");
 		
 		
 		this.add(views);
@@ -62,5 +85,32 @@ public class GUI extends JFrame{
 				}
 			}
 		});
+	}
+
+	public static StudentAccount lookupUserStudent(String emailAddress, String password) {
+		for(StudentAccount studentAccount : students) {
+			if(studentAccount.getEmailAddress().equals(emailAddress) && studentAccount.getPassword().equals(password)) {
+				return studentAccount;
+			}
+		}
+		return null;
+	}
+	
+	public static TeacherAccount lookupUserTeacher(String emailAddress, String password) {
+		for(TeacherAccount teacherAccount : teachers) {
+			if(teacherAccount.getEmailAddress().equals(emailAddress) && teacherAccount.getPassword().equals(password)) {
+				return teacherAccount;
+			}
+		}
+		return null;
+	}
+	
+	public static AdminAccount lookupUserAdmin(String emailAddress, String password) {
+		for(AdminAccount adminAccount : admins) {
+			if(adminAccount.getEmailAddress().equals(emailAddress) && adminAccount.getPassword().equals(password)) {
+				return adminAccount;
+			}
+		}
+		return null;
 	}
 }
