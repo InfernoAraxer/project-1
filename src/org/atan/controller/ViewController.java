@@ -171,4 +171,84 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		switchTo(GUI.ADMIN_VIEW);
     	}
     }
+    
+    public void editFirstName(String s) {
+    	if (activeStudentUser != null) {
+    		activeStudentUser.firstName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		activeTeacherUser.firstName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeAdminUser != null) {
+    		activeAdminUser.firstName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	}
+    }
+    
+    public void editLastName(String s) {
+    	if (activeStudentUser != null) {
+    		activeStudentUser.lastName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		activeTeacherUser.lastName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeAdminUser != null) {
+    		activeAdminUser.lastName = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	}
+    }
+    
+    public void editEmailAddress(String s) {
+    	if (activeStudentUser != null) {
+    		activeStudentUser.emailAddress = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		activeTeacherUser.emailAddress = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeAdminUser != null) {
+    		activeAdminUser.emailAddress = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	}
+    }
+    
+    public void editPhoneNumber(Long s) {
+    	if (activeStudentUser != null) {
+    		activeStudentUser.phoneNumber = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		activeTeacherUser.phoneNumber = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeAdminUser != null) {
+    		activeAdminUser.phoneNumber = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	}
+    } //Change so it only accepts 10 digit numbers
+    
+    public void editPassword(String s) {
+    	if (activeStudentUser != null) {
+    		activeStudentUser.password = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		activeTeacherUser.password = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeAdminUser != null) {
+    		activeAdminUser.password = s;
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	}
+    }
 }

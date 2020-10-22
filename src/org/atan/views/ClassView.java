@@ -91,7 +91,7 @@ public class ClassView extends JPanel implements ActionListener{
 		JPanel views = new JPanel(new CardLayout());
 		
 		views.add(new ClassList(), "CLASS_LIST");
-		views.setBounds(5, 65, 475, 100*(int) (Classes.nextClassID - 5000000));
+		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
 		this.add(views);
 	}
 	

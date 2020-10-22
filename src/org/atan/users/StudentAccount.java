@@ -2,12 +2,12 @@ package org.atan.users;
 
 public class StudentAccount {
 	
-	private String firstName;
-	private String lastName;
-	private long phoneNumber;
-	private String emailAddress;
+	public String firstName;
+	public String lastName;
+	public long phoneNumber;
+	public String emailAddress;
 	private static long nextStudentID = 1000001L;
-	private String password;
+	public String password;
 	private long studentID;
 	
 	public StudentAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password) {
@@ -22,6 +22,14 @@ public class StudentAccount {
 	
 	public String getName() {
 		return (firstName + " " + lastName);
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
 	}
 	
 	public String getPassword() {

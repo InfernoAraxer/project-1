@@ -135,7 +135,7 @@ public class AccountCreationView extends JPanel {
 						Long phoneNumber = Long.parseLong(phoneNumberField.getText());
 						char[] password = passwordField.getPassword();
 						char[] checkedPassword = recheckPassword.getPassword();
-						if (firstName == null || lastName == null || emailAddress == null || phoneNumber == null || password == null || checkedPassword == null) {
+						if (firstName.equals("") || lastName.equals("") || emailAddress.equals("") || phoneNumber.equals("") || password.equals("") || checkedPassword.equals("")) {
 							toggleErrorMessage(true);
 						} else {
 							if (student.isSelected()) {
@@ -149,7 +149,7 @@ public class AccountCreationView extends JPanel {
 							}
 						}
 					} catch (Exception e1) {
-						toggleErrorMessage(true);
+						changeErrorText("Please enter the correct information into the correct places.");
 					}
 				}
 			}
