@@ -95,4 +95,80 @@ public class ViewController {
         }
     }
     
+public void createAccount(String firstName, String lastName, String emailAddress, Long phoneNumber, char[] password, char[] checkedPassword, int accountType) {
+	AccountCreationView acv = ((AccountCreationView) views.getComponents()[GUI.ACCOUNT_CREATION_VIEW_INDEX]);
+	LoginView lv = ((LoginView) views.getComponents()[GUI.LOGIN_VIEW_INDEX]);
+	//also Check Passwords
+        if (accountType == 1) {
+        	try {
+        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
+        		acv.toggleErrorMessage(false);
+        		switchTo(GUI.LOGIN_VIEW);
+        		lv.toggleCreateAccountMessage(true);
+        	} catch (NumberFormatException e) {
+        		acv.changeErrorText("");
+        	}
+        } else if (accountType == 2) {
+        	try {
+        		GUI.teachers.add(new TeacherAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
+        		acv.toggleErrorMessage(false);
+        		switchTo(GUI.LOGIN_VIEW);
+        		lv.toggleCreateAccountMessage(true);
+        	} catch (NumberFormatException e) {
+        		acv.changeErrorText("");
+        	}
+        } else if (accountType == 3) {
+        	try {
+        		GUI.admins.add(new AdminAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
+        		acv.toggleErrorMessage(false);
+        		switchTo(GUI.LOGIN_VIEW);
+        		lv.toggleCreateAccountMessage(true);
+        	} catch (NumberFormatException e) {
+        		acv.changeErrorText("");
+        	}
+        }
+	}
+    
+    public void logout() {
+    	switchTo(GUI.LOGIN_VIEW);
+    	activeTeacherUser = null;
+    	activeStudentUser = null;
+    	activeAdminUser = null;
+    }
+    
+    public void settings() {
+    	if (activeStudentUser != null) {
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    	} else if (activeTeacherUser != null) {
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateTeacher(activeTeacherUser);
+    	} else if (activeAdminUser != null) {
+    		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+            .populateAdmin(activeAdminUser);
+    	}
+    	switchTo(GUI.SETTINGS_VIEW);
+    }
+    
+    public void createAccount() {
+    	LoginView lv = ((LoginView) views.getComponents()[GUI.LOGIN_VIEW_INDEX]);
+    	lv.clear();
+    	switchTo(GUI.ACCOUNT_CREATION_VIEW);
+    }
+    
+    public void backToMain() {
+    	if (activeStudentUser != null) {
+    		((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
+            .populate(activeStudentUser);
+    		switchTo(GUI.CLASS_VIEW);
+    	} else if (activeTeacherUser != null) {
+    		((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
+            .populate(activeTeacherUser);
+    		switchTo(GUI.TEACHER_VIEW);
+    	} else if (activeAdminUser != null) {
+    		((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
+            .populate(activeAdminUser);
+    		switchTo(GUI.ADMIN_VIEW);
+    	}
+    }
 }

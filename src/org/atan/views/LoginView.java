@@ -31,6 +31,7 @@ public class LoginView extends JPanel{
 	private JPasswordField passwordField;
 	private JButton loginButton;
 	private JLabel errorMessageLabel;
+	private JLabel createdMessageLabel;
 	private JRadioButton student;
 	private JRadioButton teacher;
 	private JRadioButton admin;
@@ -145,7 +146,11 @@ public class LoginView extends JPanel{
 		createAccount.setBounds(210, 310, 200, 35);
 		createAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				Object source = e.getSource();
+				
+				if (source.equals(createAccount)) {
+					manager.createAccount();
+				}
 			}
 		});
 		
@@ -173,7 +178,7 @@ public class LoginView extends JPanel{
 		emailField.setText("");
 		passwordField.setText("");
 		
-		showError(false);
+		toggleErrorMessage(false);
 	}
 	
 	public void createAndShowGui() {
@@ -186,6 +191,7 @@ public class LoginView extends JPanel{
 		createErrorMessageLabel();
 		createAccountType();
 		createAccountCreation();
+		createAccountMessage();
 	}
 	
 	
@@ -195,10 +201,28 @@ public class LoginView extends JPanel{
 	}
 
 	public void toggleErrorMessage(boolean show) {
+		toggleCreateAccountMessage(false);
 		if (show) {
             errorMessageLabel.setText("Invalid account number and/or PIN.");
         } else {
             errorMessageLabel.setText("");
         }
+	}
+	
+	public void createAccountMessage() {
+        createdMessageLabel = new JLabel("", SwingConstants.CENTER);
+        createdMessageLabel.setBounds(0, 450, 500, 35);
+        createdMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        createdMessageLabel.setForeground(Color.GREEN);
+
+        this.add(createdMessageLabel);
+	}
+	
+	public void toggleCreateAccountMessage(boolean show) {
+		if (show) {
+			createdMessageLabel.setText("Account Successfully Created");
+		} else {
+			createdMessageLabel.setText("");
+		}
 	}
 }

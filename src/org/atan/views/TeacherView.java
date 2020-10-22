@@ -26,11 +26,12 @@ import org.atan.users.Classes;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
 
-public class TeacherView extends JPanel{
+public class TeacherView extends JPanel implements ActionListener {
 	
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
+	private JButton settings;
 	private ViewController manager;
 	
 	public TeacherView(ViewController manager) {
@@ -74,14 +75,15 @@ public class TeacherView extends JPanel{
 	private void createLogoutButton() {
         logoutButton = new JButton("Logout");
         logoutButton.setBounds(400, 10, 80, 40);
-       // logoutButton.addActionListener(this);
+        logoutButton.addActionListener(this);
 
         this.add(logoutButton);
     }
 	
 	private void createSettingsIcon() {
-		JButton settings = new JButton("Settings");
+		settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
+		settings.addActionListener(this);
 		this.add(settings);
 	}
 	
@@ -96,5 +98,16 @@ public class TeacherView extends JPanel{
 	public void populate(TeacherAccount TeacherAccount) {
 		accountName.setText("Account Name: " + TeacherAccount.getName());
 		accountID.setText("Account ID: " + TeacherAccount.getTeacherID());
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		if (source.equals(settings)) {
+			manager.settings();
+		} else if (source.equals(logoutButton)) {
+			manager.logout();
+		}
 	}
 }

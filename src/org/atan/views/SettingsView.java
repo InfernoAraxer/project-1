@@ -21,16 +21,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.atan.controller.ViewController;
+import org.atan.users.AdminAccount;
+import org.atan.users.StudentAccount;
+import org.atan.users.TeacherAccount;
+
 import javax.swing.ImageIcon;
 
-public class SettingsView extends JPanel {
+public class SettingsView extends JPanel implements ActionListener{
 	
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
+	private ViewController manager;
+	private JButton backButton;
 	
-	public SettingsView() {
+	public SettingsView(ViewController manager) {
 		super();
+		
+		this.manager = manager;
 		
 		this.init();
 	}
@@ -42,6 +52,7 @@ public class SettingsView extends JPanel {
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
+		createBackButton();
 	}
 	
 	private void createAccountName() {
@@ -67,7 +78,7 @@ public class SettingsView extends JPanel {
 	private void createLogoutButton() {
         logoutButton = new JButton("Logout");
         logoutButton.setBounds(400, 10, 80, 40);
-       // logoutButton.addActionListener(this);
+        logoutButton.addActionListener(this);
 
         this.add(logoutButton);
     }
@@ -76,5 +87,46 @@ public class SettingsView extends JPanel {
 		JButton settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
 		this.add(settings);
+	}
+	
+	public void populateAdmin(AdminAccount AdminAccount) {
+		accountName.setText("Account Name: " + AdminAccount.getName());
+		accountID.setText("Account ID: " + AdminAccount.getAdminID());
+	}
+
+	public void populateTeacher(TeacherAccount TeacherAccount) {
+		accountName.setText("Account Name: " + TeacherAccount.getName());
+		accountID.setText("Account ID: " + TeacherAccount.getTeacherID());
+	}
+	
+	public void populateStudent(StudentAccount StudentAccount) {
+		accountName.setText("Account Name: " + StudentAccount.getName());
+		accountID.setText("Account ID: " + StudentAccount.getStudentID());
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		if (source.equals(logoutButton)) {
+			manager.logout();
+		}
+		
+	}
+	
+	private void createBackButton() {
+		backButton = new JButton("Return to Main Screen");
+		backButton.setBounds(5, 775, 475, 50);
+	
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object source = e.getSource();
+				
+				if (source.equals(backButton)) {
+					manager.backToMain();
+				}
+			}
+		});
+		
+		this.add(backButton);
 	}
 }
