@@ -47,8 +47,8 @@ public class ClassPanels extends JPanel implements ActionListener{
 		createClassID(GUI.classes.get(x));
 		createCheckAssignments();
 		addPurchase();
-		addTeacherName();
-		addTime();
+		addTeacherName(GUI.classes.get(x));
+		addTime(GUI.classes.get(x));
 	}
 	
 	public static void giveTeacherAccount(TeacherAccount teacher) {
@@ -75,6 +75,7 @@ public class ClassPanels extends JPanel implements ActionListener{
 		assignments = new JButton ("Check Assignments");
 		assignments.setBounds(10, 60, 220, 30);
 		assignments.setFont(new Font("DialogInput", Font.BOLD, 14));
+		assignments.addActionListener(this);
 		
 		this.add(assignments);
 	}
@@ -88,17 +89,17 @@ public class ClassPanels extends JPanel implements ActionListener{
 		this.add(purchase);
 	}
 	
-	private void addTime() {
-		time = new JLabel ("Time: ");
+	private void addTime(Classes classes) {
+		time = new JLabel ("Time: " + classes.getTime(), SwingConstants.RIGHT);
 		time.setBounds(360, 0, 100, 30);
 		time.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(time);
 	}
 	
-	private void addTeacherName() {
-		taught = new JLabel ("Taught By: ");
-		taught.setBounds(165, 29, 300, 30);
+	private void addTeacherName(Classes classes) {
+		taught = new JLabel ("Taught By: " + classes.teacher.getName(), SwingConstants.RIGHT);
+		taught.setBounds(160, 29, 300, 30);
 		taught.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(taught);
@@ -109,6 +110,8 @@ public class ClassPanels extends JPanel implements ActionListener{
 		Object source = e.getSource();
 		
 		if (source.equals(purchase)) {
+			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
+		} else if (source.equals(assignments)) {
 			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
 		}
 		

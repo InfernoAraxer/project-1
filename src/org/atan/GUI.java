@@ -48,12 +48,6 @@ public class GUI extends JFrame{
 	public GUI() {
 		super("UCVTS Course Management Software");
 		
-		classes = new ArrayList<Classes>();
-		
-		classes.add(new Classes("Advanced Software Development"));
-		classes.add(new Classes("AP Computer Science"));
-		classes.add(new Classes("AP Microeconomics"));
-		
 		teachers = new ArrayList<TeacherAccount>();
 		students = new ArrayList<StudentAccount>();
 		admins = new ArrayList<AdminAccount>();
@@ -61,6 +55,13 @@ public class GUI extends JFrame{
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p"));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", null));
+		
+		classes = new ArrayList<Classes>();
+		
+		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2"));
+		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4"));
+		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8"));
+		
 	}
 	
 	private void init() {

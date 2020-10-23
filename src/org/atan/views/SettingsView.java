@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.atan.GUI;
 import org.atan.controller.ViewController;
 import org.atan.users.AdminAccount;
 import org.atan.users.StudentAccount;
@@ -51,7 +53,7 @@ public class SettingsView extends JPanel implements ActionListener{
 	private JButton editPassword;
 	private JPanel panel;
 	private JLabel label;
-	private JFrame frame;
+	private JDialog dialog;
 	private JButton returnButton;
 	private JButton submitButton;
 	private JTextField textField;
@@ -261,7 +263,7 @@ public class SettingsView extends JPanel implements ActionListener{
 	
 	public void setUpPanel(String s, int index) {
 		int choice = index;
-		frame = new JFrame();
+		dialog = new JDialog();
 		panel = new JPanel();
 		label = new JLabel(s, SwingConstants.CENTER);
 		textField = new JTextField();
@@ -279,7 +281,7 @@ public class SettingsView extends JPanel implements ActionListener{
 				Object source = e.getSource();
 				
 				if (source.equals(returnButton)) {
-					frame.dispose();
+					dialog.dispose();
 				} 
 			}
 		});
@@ -307,7 +309,7 @@ public class SettingsView extends JPanel implements ActionListener{
 							manager.editPassword(textField.getText());
 							break;
 					}
-					frame.dispose();
+					dialog.dispose();
 				} 
 			}
 		});
@@ -316,12 +318,12 @@ public class SettingsView extends JPanel implements ActionListener{
 		panel.add(submitButton);
 		panel.add(textField);
 		
-		frame.setBounds(100, 100, 500, 300);
-		frame.add(panel);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
+		dialog.setBounds(100, 100, 500, 300);
+		dialog.add(panel);
+		dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		dialog.setLocationRelativeTo(null);
+		dialog.setResizable(false);
+		dialog.setVisible(true);
 	}
 	
 }

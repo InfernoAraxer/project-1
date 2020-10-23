@@ -193,12 +193,6 @@ public class LoginView extends JPanel{
 		createAccountCreation();
 		createAccountMessage();
 	}
-	
-	
-
-	public static void main(String[] args) {
-		//new LoginView1().createAndShowGui();
-	}
 
 	public void toggleErrorMessage(boolean show) {
 		toggleCreateAccountMessage(false);
