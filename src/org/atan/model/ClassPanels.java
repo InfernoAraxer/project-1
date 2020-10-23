@@ -27,8 +27,10 @@ import org.atan.users.TeacherAccount;
 public class ClassPanels extends JPanel implements ActionListener{
 	private JLabel className;
 	private JLabel classID;
+	private JLabel time;
+	private JLabel taught;
 	private JButton assignments;
-	private JComboBox scheduleTime;
+	private JButton purchase;
 	private static TeacherAccount teacher;
 	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
@@ -44,8 +46,9 @@ public class ClassPanels extends JPanel implements ActionListener{
 		createClassName(GUI.classes.get(x));
 		createClassID(GUI.classes.get(x));
 		createCheckAssignments();
-		addTeacherPicture();
+		addPurchase();
 		addTeacherName();
+		addTime();
 	}
 	
 	public static void giveTeacherAccount(TeacherAccount teacher) {
@@ -54,7 +57,7 @@ public class ClassPanels extends JPanel implements ActionListener{
 	
 	private void createClassName(Classes classes) {
 		className = new JLabel ("Class Name: " + classes.getClassName());
-		className.setBounds(10, 0, 300, 30);
+		className.setBounds(10, 0, 350, 30);
 		className.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(className);
@@ -62,7 +65,7 @@ public class ClassPanels extends JPanel implements ActionListener{
 	
 	private void createClassID(Classes classes) {
 		classID = new JLabel ("Class ID: " + classes.getClassID());
-		classID.setBounds(10, 30, 300, 30);
+		classID.setBounds(10, 30, 150, 30);
 		classID.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(classID);
@@ -70,23 +73,44 @@ public class ClassPanels extends JPanel implements ActionListener{
 	
 	private void createCheckAssignments() {
 		assignments = new JButton ("Check Assignments");
-		assignments.setBounds(10, 60, 200, 30);
+		assignments.setBounds(10, 60, 220, 30);
 		assignments.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(assignments);
 	}
 	
-	private void addTeacherPicture() {
-		// add later
+	private void addPurchase() {
+		purchase = new JButton ("Purchase Class");
+		purchase.setBounds(235, 60, 230, 30);
+		purchase.setFont(new Font("DialogInput", Font.BOLD, 14));
+		purchase.addActionListener(this);
+		
+		this.add(purchase);
+	}
+	
+	private void addTime() {
+		time = new JLabel ("Time: ");
+		time.setBounds(360, 0, 100, 30);
+		time.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		this.add(time);
 	}
 	
 	private void addTeacherName() {
-		// add later
+		taught = new JLabel ("Taught By: ");
+		taught.setBounds(165, 29, 300, 30);
+		taught.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		this.add(taught);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		Object source = e.getSource();
+		
+		if (source.equals(purchase)) {
+			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
+		}
 		
 	}
 }

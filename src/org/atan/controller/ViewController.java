@@ -101,7 +101,7 @@ public void createAccount(String firstName, String lastName, String emailAddress
 	//also Check Passwords
         if (accountType == 1) {
         	try {
-        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
+        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), null));
         		acv.toggleErrorMessage(false);
         		switchTo(GUI.LOGIN_VIEW);
         		lv.toggleCreateAccountMessage(true);
@@ -249,6 +249,22 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		activeAdminUser.password = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
+    	}
+    }
+    
+    public void goToShop() {
+    	if (activeStudentUser != null) {
+    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+            .populateStudent(activeStudentUser);
+    		switchTo(GUI.CLASS_SHOP_VIEW);
+    	} else if (activeTeacherUser != null) {
+    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+            .populateTeacher(activeTeacherUser);
+    		switchTo(GUI.CLASS_SHOP_VIEW);
+    	} else if (activeAdminUser != null) {
+    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+            .populateAdmin(activeAdminUser);
+    		switchTo(GUI.CLASS_SHOP_VIEW);
     	}
     }
 }

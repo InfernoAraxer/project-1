@@ -31,6 +31,7 @@ public class AdminView extends JPanel implements ActionListener {
 	private JButton logoutButton;
 	private JButton settings;
 	private ViewController manager;
+	private JButton classShopButton;
 	
 	public AdminView(ViewController manager) {
 		super();
@@ -47,11 +48,12 @@ public class AdminView extends JPanel implements ActionListener {
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
+		createClassShopButton();
 	}
 	
 	private void createAccountName() {
 		accountName = new JLabel("Account Name: ");
-		accountName.setBounds(10, 0, 490, 35);
+		accountName.setBounds(10, 0, 190, 35);
 		accountName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(accountName);
@@ -59,7 +61,7 @@ public class AdminView extends JPanel implements ActionListener {
 	
 	private void createAccountID() {
 		accountID = new JLabel("Account ID: ");
-		accountID.setBounds(10, 20, 490, 35);
+		accountID.setBounds(10, 20, 190, 35);
 		accountID.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		JSeparator divider = new JSeparator();
@@ -97,8 +99,16 @@ public class AdminView extends JPanel implements ActionListener {
 			manager.settings();
 		} else if (source.equals(logoutButton)) {
 			manager.logout();
+		} else if (source.equals(classShopButton)) {
+			manager.goToShop();
 		}
 	}
 	
-	
+	public void createClassShopButton() {
+		classShopButton = new JButton("Class Shop");
+		classShopButton.setBounds(200, 10, 100, 40);
+		classShopButton.addActionListener(this);
+		
+		this.add(classShopButton);
+	}
 }

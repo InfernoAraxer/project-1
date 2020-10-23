@@ -67,7 +67,6 @@ public class SettingsView extends JPanel implements ActionListener{
 	private void init() {
 		this.setLayout(null);
 		
-		clear();
 		createAccountName();
 		createAccountID();
 		createLogoutButton();
@@ -84,7 +83,7 @@ public class SettingsView extends JPanel implements ActionListener{
 	
 	private void createAccountName() {
 		accountName = new JLabel("Account Name: ");
-		accountName.setBounds(10, 0, 490, 35);
+		accountName.setBounds(10, 0, 290, 35);
 		accountName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(accountName);
@@ -92,7 +91,7 @@ public class SettingsView extends JPanel implements ActionListener{
 	
 	private void createAccountID() {
 		accountID = new JLabel("Account ID: ");
-		accountID.setBounds(10, 20, 490, 35);
+		accountID.setBounds(10, 20, 290, 35);
 		accountID.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		JSeparator divider = new JSeparator();
@@ -323,10 +322,6 @@ public class SettingsView extends JPanel implements ActionListener{
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
-	}
-	
-	public void clear() {
-		this.removeAll();
 	}
 	
 }

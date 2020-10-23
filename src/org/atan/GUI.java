@@ -29,6 +29,7 @@ public class GUI extends JFrame{
 	public static final String CLASS_VIEW = "CLASS_VIEW";
 	public static final String SETTINGS_VIEW = "SETTINGS_VIEW";
 	public static final String ACCOUNT_CREATION_VIEW = "ACCOUNT_CREATION_VIEW";
+	public static final String CLASS_SHOP_VIEW = "CLASS_SHOP_VIEW";
 	
 	public static final int LOGIN_VIEW_INDEX = 0;
 	public static final int TEACHER_VIEW_INDEX = 1;
@@ -36,6 +37,7 @@ public class GUI extends JFrame{
 	public static final int CLASS_VIEW_INDEX = 2;
 	public static final int SETTINGS_VIEW_INDEX = 4;
 	public static final int ACCOUNT_CREATION_VIEW_INDEX = 5;
+	public static final int CLASS_SHOP_VIEW_INDEX = 6;
 	
 	public static ArrayList<Classes> classes;
 	public static ArrayList<AdminAccount> admins;
@@ -58,7 +60,7 @@ public class GUI extends JFrame{
 		
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p"));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
-		students.add(new StudentAccount("Alex", "Tan", 9083164190L, "x", "p"));
+		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", null));
 	}
 	
 	private void init() {
@@ -71,6 +73,7 @@ public class GUI extends JFrame{
 		views.add(new AdminView(manager), "ADMIN_VIEW");
 		views.add(new SettingsView(manager), "SETTINGS_VIEW");
 		views.add(new AccountCreationView(manager), "ACCOUNT_CREATION_VIEW");
+		views.add(new ClassShopView(manager), "CLASS_SHOP_VIEW");
 		
 		this.add(views);
 		this.setBounds(100, 100, 500, 1000);

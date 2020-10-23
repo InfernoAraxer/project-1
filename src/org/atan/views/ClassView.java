@@ -33,6 +33,7 @@ public class ClassView extends JPanel implements ActionListener{
 	private JButton logoutButton;
 	private JButton settings;
 	private ViewController manager;
+	private JButton classShopButton;
 	
 	public ClassView(ViewController manager) {
 		super();
@@ -48,13 +49,14 @@ public class ClassView extends JPanel implements ActionListener{
 		createAccountName();
 		createAccountID();
 		createLogoutButton();
-		createClassList();
+		//createClassList();
 		createSettingsIcon();
+		createClassShopButton();
 	}
 	
 	private void createAccountName() {
 		accountName = new JLabel("Account Name: ");
-		accountName.setBounds(10, 0, 490, 35);
+		accountName.setBounds(10, 0, 190, 35);
 		accountName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(accountName);
@@ -62,7 +64,7 @@ public class ClassView extends JPanel implements ActionListener{
 	
 	private void createAccountID() {
 		accountID = new JLabel("Account ID: ");
-		accountID.setBounds(10, 20, 490, 35);
+		accountID.setBounds(10, 20, 190, 35);
 		accountID.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		JSeparator divider = new JSeparator();
@@ -87,6 +89,7 @@ public class ClassView extends JPanel implements ActionListener{
 		this.add(settings);
 	}
 	
+	/*
 	public void createClassList() {
 		JPanel views = new JPanel(new CardLayout());
 		
@@ -94,6 +97,7 @@ public class ClassView extends JPanel implements ActionListener{
 		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
 		this.add(views);
 	}
+	*/
 	
 	public void populate(StudentAccount StudentAccount) {
 		accountName.setText("Account Name: " + StudentAccount.getName());
@@ -108,7 +112,17 @@ public class ClassView extends JPanel implements ActionListener{
 			manager.settings();
 		} else if (source.equals(logoutButton)) {
 			manager.logout();
+		} else if (source.equals(classShopButton)) {
+			manager.goToShop();
 		}
 		
+	}
+	
+	public void createClassShopButton() {
+		classShopButton = new JButton("Class Shop");
+		classShopButton.setBounds(200, 10, 100, 40);
+		classShopButton.addActionListener(this);
+		
+		this.add(classShopButton);
 	}
 }
