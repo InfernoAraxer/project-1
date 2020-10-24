@@ -1,6 +1,7 @@
 package org.atan;
 
 import java.awt.CardLayout;
+
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -51,10 +52,13 @@ public class GUI extends JFrame{
 		teachers = new ArrayList<TeacherAccount>();
 		students = new ArrayList<StudentAccount>();
 		admins = new ArrayList<AdminAccount>();
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		temp.add(1);
+		
 		
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p"));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
-		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", null));
+		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
 		
 		classes = new ArrayList<Classes>();
 		

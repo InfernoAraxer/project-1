@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +24,7 @@ import javax.swing.SwingConstants;
 
 import org.atan.controller.ViewController;
 import org.atan.model.ClassList;
+import org.atan.model.ClassPanels;
 import org.atan.users.Classes;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
@@ -32,8 +35,11 @@ public class ClassView extends JPanel implements ActionListener{
 	private JLabel accountID;
 	private JButton logoutButton;
 	private JButton settings;
+	private JPanel views;
+	private JPanel classList;
 	private ViewController manager;
 	private JButton classShopButton;
+	private ArrayList<Integer> temp;
 	
 	public ClassView(ViewController manager) {
 		super();
@@ -49,7 +55,6 @@ public class ClassView extends JPanel implements ActionListener{
 		createAccountName();
 		createAccountID();
 		createLogoutButton();
-		//createClassList();
 		createSettingsIcon();
 		createClassShopButton();
 	}
@@ -89,16 +94,6 @@ public class ClassView extends JPanel implements ActionListener{
 		this.add(settings);
 	}
 	
-	/*
-	public void createClassList() {
-		JPanel views = new JPanel(new CardLayout());
-		
-		views.add(new ClassList(), "CLASS_LIST");
-		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
-		this.add(views);
-	}
-	*/
-	
 	public void populate(StudentAccount StudentAccount) {
 		accountName.setText("Account Name: " + StudentAccount.getName());
 		accountID.setText("Account ID: " + StudentAccount.getStudentID());
@@ -124,5 +119,33 @@ public class ClassView extends JPanel implements ActionListener{
 		classShopButton.addActionListener(this);
 		
 		this.add(classShopButton);
+	}
+	
+	public void createActiveClasses() {
+		this.removeAll();
+		init();
+		 	views = new JPanel(new CardLayout());
+			classList = new JPanel();
+			classList.setLayout(new GridLayout(0, 1));
+			temp = manager.returnClasses();
+			
+			for (int x = 1; x < temp.size(); x++) {
+				JPanel view = new JPanel(new CardLayout());
+				view.add(new ClassPanels(temp.get(x), false), "CLASS_LIST");
+				view.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				classList.add(view);	
+			}
+			
+			views.add(classList);
+			views.setBounds(5, 65, 475, 100 * (temp.size() - 1));
+			this.add(views);
+		/*
+		JPanel views = new JPanel(new CardLayout());
+		
+		views.add(new ClassList(), "CLASS_LIST");
+		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
+		this.add(views);
+		*/
+		
 	}
 }

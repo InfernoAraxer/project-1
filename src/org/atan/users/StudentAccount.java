@@ -11,9 +11,9 @@ public class StudentAccount {
 	private static long nextStudentID = 1000001L;
 	public String password;
 	private long studentID;
-	public static ArrayList<Classes> classes;
+	public ArrayList<Integer> classes;
 	
-	public StudentAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password, ArrayList<Classes> classes) {
+	public StudentAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password, ArrayList<Integer> classes) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -50,5 +50,9 @@ public class StudentAccount {
 	
 	public long getPhoneNumber() {
 		return phoneNumber;
+	}
+	
+	public ArrayList<Integer> getClasses() {
+		return classes;
 	}
 }

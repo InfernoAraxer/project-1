@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,28 +26,32 @@ import org.atan.users.TeacherAccount;
 
 
 public class ClassPanels extends JPanel implements ActionListener{
+	
+	public static int addClass;
 	private JLabel className;
 	private JLabel classID;
 	private JLabel time;
 	private JLabel taught;
 	private JButton assignments;
 	private JButton purchase;
+	private ViewController manager;
 	private static TeacherAccount teacher;
+	public int x;
 	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
-	public ClassPanels(int i) {
+	public ClassPanels(int i, boolean inClass) {
 		super();
 		
-		this.init(i);
+		this.init(i, inClass);
 	}
 	
-	public void init(int x) {
+	public void init(int x, boolean inClass) {
 		this.setLayout(null);
 		
 		createClassName(GUI.classes.get(x));
 		createClassID(GUI.classes.get(x));
 		createCheckAssignments();
-		addPurchase();
+		addPurchase(inClass);
 		addTeacherName(GUI.classes.get(x));
 		addTime(GUI.classes.get(x));
 	}
@@ -80,13 +85,15 @@ public class ClassPanels extends JPanel implements ActionListener{
 		this.add(assignments);
 	}
 	
-	private void addPurchase() {
+	private void addPurchase(boolean inClass) {
+		if (inClass) {
 		purchase = new JButton ("Purchase Class");
 		purchase.setBounds(235, 60, 230, 30);
 		purchase.setFont(new Font("DialogInput", Font.BOLD, 14));
 		purchase.addActionListener(this);
 		
 		this.add(purchase);
+		}
 	}
 	
 	private void addTime(Classes classes) {
@@ -110,7 +117,8 @@ public class ClassPanels extends JPanel implements ActionListener{
 		Object source = e.getSource();
 		
 		if (source.equals(purchase)) {
-			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
+			addClass = Integer.valueOf((classID.getText()).substring(10)) - 5000000;
+			ViewController.addClass();
 		} else if (source.equals(assignments)) {
 			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
 		}

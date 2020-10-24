@@ -45,7 +45,7 @@ public class ClassList extends JPanel{
 	private void addClassToGrid(int i) {
 		JPanel views = new JPanel(new CardLayout());
 		
-		views.add(new ClassPanels(i), "CLASS_PANELS");
+		views.add(new ClassPanels(i, true), "CLASS_PANELS");
 		
 		views.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
@@ -55,5 +55,6 @@ public class ClassList extends JPanel{
 	private void addScrollBar() {
 		
 	}
+	
 	
 }

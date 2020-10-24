@@ -3,19 +3,22 @@ package org.atan.controller;
 import java.awt.CardLayout;
 import java.awt.Container;
 
+import java.util.ArrayList;
+
 import org.atan.GUI;
+import org.atan.model.ClassPanels;
 import org.atan.users.*;
 import org.atan.views.*;
 
 public class ViewController {
-	private Container views;
+	private static Container views;
 	private TeacherAccount activeTeacherUser;
-	private StudentAccount activeStudentUser;
+	private static StudentAccount activeStudentUser;
 	private AdminAccount activeAdminUser;
 	
 	public ViewController (Container views) {
 		this.views = views;
-		this.activeStudentUser = null;
+		ViewController.activeStudentUser = GUI.students.get(0);
 		this.activeTeacherUser = null;
 		this.activeAdminUser = null;
 	}
@@ -37,7 +40,7 @@ public class ViewController {
 	}
 
     public void login(String emailAddress, char[] password, int accountType) {
-        
+        activeStudentUser = null;
         if (accountType == 1) {
         	LoginView lv = ((LoginView) views.getComponents()[GUI.LOGIN_VIEW_INDEX]);
         	try {
@@ -101,7 +104,9 @@ public void createAccount(String firstName, String lastName, String emailAddress
 	//also Check Passwords
         if (accountType == 1) {
         	try {
-        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), null));
+        		ArrayList<Integer> temp = new ArrayList<Integer>();
+        		temp.add(1);
+        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), temp));
         		acv.toggleErrorMessage(false);
         		switchTo(GUI.LOGIN_VIEW);
         		lv.toggleCreateAccountMessage(true);
@@ -266,5 +271,16 @@ public void createAccount(String firstName, String lastName, String emailAddress
             .populateAdmin(activeAdminUser);
     		switchTo(GUI.CLASS_SHOP_VIEW);
     	}
+    }
+    
+    
+    public ArrayList<Integer> returnClasses() {
+	    return activeStudentUser.getClasses();
+    }
+    
+    public static void addClass() {
+    	activeStudentUser.getClasses().add(ClassPanels.addClass);
+    	((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
+    	.createActiveClasses();
     }
 }
