@@ -42,6 +42,7 @@ public class AccountCreationView extends JPanel {
 	private JTextField phoneNumberField;
 	private JTextField firstNameField;
 	private JTextField lastNameField;
+	private ButtonGroup g;
 	
 	public AccountCreationView (ViewController manager) {
 		super();
@@ -68,6 +69,11 @@ public class AccountCreationView extends JPanel {
 	public void clear() {
 		emailField.setText("");
 		passwordField.setText("");
+		recheckPassword.setText("");
+		phoneNumberField.setText("");
+		firstNameField.setText("");
+		lastNameField.setText("");
+		g.clearSelection();
 		
 		toggleErrorMessage(false);
 	}
@@ -101,7 +107,7 @@ public class AccountCreationView extends JPanel {
         teacher = new JRadioButton("Teacher");
         admin = new JRadioButton("Admin");
         
-        ButtonGroup g = new ButtonGroup();
+        g = new ButtonGroup();
         
         radio.add(student);
         radio.add(teacher);

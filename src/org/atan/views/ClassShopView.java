@@ -145,5 +145,8 @@ public class ClassShopView extends JPanel implements ActionListener{
 		this.add(views);
 	}
 	
-	
+	public void reset() {
+		this.removeAll();
+		this.init();
+	}
 }

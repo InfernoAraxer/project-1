@@ -70,7 +70,9 @@ public class ViewController {
 	                lv.toggleErrorMessage(true);
 	            } else {
 	                ((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
-	                    .populate(activeTeacherUser);
+	                .createActiveClasses();
+	                ((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
+                    .populate(activeTeacherUser);
 	                switchTo(GUI.TEACHER_VIEW);
 	                lv.clear();
 	            }
@@ -108,6 +110,7 @@ public void createAccount(String firstName, String lastName, String emailAddress
         		temp.add(1);
         		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), temp));
         		acv.toggleErrorMessage(false);
+        		acv.clear();
         		switchTo(GUI.LOGIN_VIEW);
         		lv.toggleCreateAccountMessage(true);
         	} catch (NumberFormatException e) {
@@ -115,8 +118,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
         	}
         } else if (accountType == 2) {
         	try {
-        		GUI.teachers.add(new TeacherAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
+        		ArrayList<Integer> temp = new ArrayList<Integer>();
+        		temp.add(1);
+        		GUI.teachers.add(new TeacherAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), temp));
         		acv.toggleErrorMessage(false);
+        		acv.clear();
         		switchTo(GUI.LOGIN_VIEW);
         		lv.toggleCreateAccountMessage(true);
         	} catch (NumberFormatException e) {
@@ -126,6 +132,7 @@ public void createAccount(String firstName, String lastName, String emailAddress
         	try {
         		GUI.admins.add(new AdminAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password)));
         		acv.toggleErrorMessage(false);
+        		acv.clear();
         		switchTo(GUI.LOGIN_VIEW);
         		lv.toggleCreateAccountMessage(true);
         	} catch (NumberFormatException e) {
@@ -139,6 +146,9 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	activeTeacherUser = null;
     	activeStudentUser = null;
     	activeAdminUser = null;
+    	((AccountCreationView) views.getComponents()[GUI.ACCOUNT_CREATION_VIEW_INDEX])
+    	.clear();
+    	
     }
     
     public void settings() {
@@ -262,10 +272,6 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     		switchTo(GUI.CLASS_SHOP_VIEW);
-    	} else if (activeTeacherUser != null) {
-    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
-            .populateTeacher(activeTeacherUser);
-    		switchTo(GUI.CLASS_SHOP_VIEW);
     	} else if (activeAdminUser != null) {
     		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
             .populateAdmin(activeAdminUser);
@@ -275,12 +281,38 @@ public void createAccount(String firstName, String lastName, String emailAddress
     
     
     public ArrayList<Integer> returnClasses() {
-	    return activeStudentUser.getClasses();
+    	if (activeStudentUser != null) {
+    		return activeStudentUser.getClasses();
+    	} else {
+    		return activeTeacherUser.getClasses();
+    	}
     }
     
     public static void addClass() {
     	activeStudentUser.getClasses().add(ClassPanels.addClass);
     	((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
     	.createActiveClasses();
+    }
+    
+    public void goToMakeClass() {
+    	((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX])
+		.populate(activeAdminUser);
+		switchTo(GUI.MAKE_CLASS_VIEW);
+    }
+    
+    public void createNewClass(String className, String classTime, String taughtBy) {
+    	int teach = -1;
+    	for (int x = 0; x < GUI.teachers.size(); x++) {
+    		if (GUI.teachers.get(x).getEmailAddress().equals(taughtBy)) {
+    			teach = x;
+    		}
+    	}
+    	GUI.classes.add(new Classes(className, GUI.teachers.get(teach), classTime));
+    	switchTo(GUI.ADMIN_VIEW);
+    	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+    	.reset();
+    	
+    	GUI.teachers.get(teach).getClasses().add(GUI.classes.size()-1);
+    	((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX]).clear();
     }
 }

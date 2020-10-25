@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -128,24 +129,33 @@ public class ClassView extends JPanel implements ActionListener{
 			classList = new JPanel();
 			classList.setLayout(new GridLayout(0, 1));
 			temp = manager.returnClasses();
+			Collections.sort(temp);
+			ArrayList<Integer> newList = removeDuplicates(temp); 
 			
-			for (int x = 1; x < temp.size(); x++) {
+			for (int x = 1; x < newList.size(); x++) {
 				JPanel view = new JPanel(new CardLayout());
-				view.add(new ClassPanels(temp.get(x), false), "CLASS_LIST");
+				view.add(new ClassPanels(newList.get(x), false), "CLASS_LIST");
 				view.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				classList.add(view);	
 			}
 			
 			views.add(classList);
-			views.setBounds(5, 65, 475, 100 * (temp.size() - 1));
+			views.setBounds(5, 65, 475, 100 * (newList.size() - 1));
 			this.add(views);
-		/*
-		JPanel views = new JPanel(new CardLayout());
-		
-		views.add(new ClassList(), "CLASS_LIST");
-		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
-		this.add(views);
-		*/
-		
 	}
+	
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) { 
+
+        ArrayList<T> newList = new ArrayList<T>(); 
+
+        for (T element : list) { 
+            if (!newList.contains(element)) { 
+  
+                newList.add(element); 
+            } 
+        } 
+        return newList; 
+    } 
+    
+    
 }

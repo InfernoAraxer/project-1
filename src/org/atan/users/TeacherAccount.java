@@ -1,5 +1,7 @@
 package org.atan.users;
 
+import java.util.ArrayList;
+
 public class TeacherAccount {
 	
 	public String firstName;
@@ -9,13 +11,15 @@ public class TeacherAccount {
 	private static long nextTeacherID = 2000001L;
 	public String password;
 	private long teacherID;
+	private ArrayList<Integer> classes;
 	
-	public TeacherAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password) {
+	public TeacherAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password, ArrayList<Integer> classes) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
 		this.password = password;
+		this.classes = classes;
 		
 		this.teacherID = TeacherAccount.nextTeacherID++;
 	}
@@ -46,6 +50,10 @@ public class TeacherAccount {
 	
 	public long getPhoneNumber() {
 		return phoneNumber;
+	}
+	
+	public ArrayList<Integer> getClasses() {
+		return classes;
 	}
  
 }

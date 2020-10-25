@@ -31,7 +31,7 @@ public class AdminView extends JPanel implements ActionListener {
 	private JButton logoutButton;
 	private JButton settings;
 	private ViewController manager;
-	private JButton classShopButton;
+	private JButton makeClassButton;
 	
 	public AdminView(ViewController manager) {
 		super();
@@ -48,7 +48,7 @@ public class AdminView extends JPanel implements ActionListener {
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
-		createClassShopButton();
+		makeClassButton();
 	}
 	
 	private void createAccountName() {
@@ -99,16 +99,16 @@ public class AdminView extends JPanel implements ActionListener {
 			manager.settings();
 		} else if (source.equals(logoutButton)) {
 			manager.logout();
-		} else if (source.equals(classShopButton)) {
-			manager.goToShop();
+		} else if (source.equals(makeClassButton)) {
+			manager.goToMakeClass();
 		}
 	}
 	
-	public void createClassShopButton() {
-		classShopButton = new JButton("Class Shop");
-		classShopButton.setBounds(200, 10, 100, 40);
-		classShopButton.addActionListener(this);
+	public void makeClassButton() {
+		makeClassButton = new JButton("Make Class");
+		makeClassButton.setBounds(200, 10, 100, 40);
+		makeClassButton.addActionListener(this);
 		
-		this.add(classShopButton);
+		this.add(makeClassButton);
 	}
 }

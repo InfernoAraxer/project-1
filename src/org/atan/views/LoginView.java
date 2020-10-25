@@ -35,6 +35,7 @@ public class LoginView extends JPanel{
 	private JRadioButton student;
 	private JRadioButton teacher;
 	private JRadioButton admin;
+	private ButtonGroup g;
 	
 	public LoginView(ViewController manager) {
 		super();
@@ -123,7 +124,7 @@ public class LoginView extends JPanel{
         teacher = new JRadioButton("Teacher");
         admin = new JRadioButton("Admin");
         
-        ButtonGroup g = new ButtonGroup();
+        g = new ButtonGroup();
         
         radio.add(student);
         radio.add(teacher);
@@ -177,6 +178,7 @@ public class LoginView extends JPanel{
 	public void clear() {
 		emailField.setText("");
 		passwordField.setText("");
+		g.clearSelection();
 		
 		toggleErrorMessage(false);
 	}
