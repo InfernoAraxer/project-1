@@ -128,7 +128,7 @@ public class ClassView extends JPanel implements ActionListener{
 		 	views = new JPanel(new CardLayout());
 			classList = new JPanel();
 			classList.setLayout(new GridLayout(0, 1));
-			temp = manager.returnClasses();
+			temp = manager.returnStudentClasses();
 			Collections.sort(temp);
 			ArrayList<Integer> newList = removeDuplicates(temp); 
 			

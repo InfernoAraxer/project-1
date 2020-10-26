@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -36,7 +37,7 @@ public class TeacherView extends JPanel implements ActionListener {
 	private JButton logoutButton;
 	private JButton settings;
 	private ViewController manager;
-	private JButton classShopButton;
+	private JButton makeAssignmentButton;
 	private ArrayList<Integer> temp;
 	private JPanel views;
 	private JPanel classList;
@@ -56,11 +57,12 @@ public class TeacherView extends JPanel implements ActionListener {
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
+		makeAssignmentButton();
 	}
 	
 	private void createAccountName() {
 		accountName = new JLabel("Account Name: ");
-		accountName.setBounds(10, 0, 290, 35);
+		accountName.setBounds(10, 0, 190, 35);
 		accountName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(accountName);
@@ -106,6 +108,8 @@ public class TeacherView extends JPanel implements ActionListener {
 			manager.settings();
 		} else if (source.equals(logoutButton)) {
 			manager.logout();
+		} else if (source.equals(makeAssignmentButton)) {
+			manager.goToMakeNewAssignment();
 		}
 	}
 	public void createActiveClasses() {
@@ -114,7 +118,7 @@ public class TeacherView extends JPanel implements ActionListener {
 		 	views = new JPanel(new CardLayout());
 			classList = new JPanel();
 			classList.setLayout(new GridLayout(0, 1));
-			temp = manager.returnClasses();
+			temp = manager.returnTeacherClasses();
 			Collections.sort(temp);
 			ArrayList<Integer> newList = removeDuplicates(temp); 
 			
@@ -142,5 +146,14 @@ public class TeacherView extends JPanel implements ActionListener {
         } 
         return newList; 
     } 
+    
+	public void makeAssignmentButton() {
+		makeAssignmentButton = new JButton("New Assignment");
+		makeAssignmentButton.setBounds(200, 10, 100, 40);
+		makeAssignmentButton.setMargin(new Insets(0, 0, 0, 0));
+		makeAssignmentButton.addActionListener(this);
+		
+		this.add(makeAssignmentButton);
+	}
     
 }

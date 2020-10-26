@@ -77,7 +77,7 @@ public class AssignmentView extends JPanel implements ActionListener{
 	private void createLogoutButton() {
         logoutButton = new JButton("Logout");
         logoutButton.setBounds(400, 10, 80, 40);
-       // logoutButton.addActionListener(this);
+        logoutButton.addActionListener(this);
 
         this.add(logoutButton);
     }
@@ -122,6 +122,8 @@ public class AssignmentView extends JPanel implements ActionListener{
 		
 		if (source.equals(backButton)) {
 			manager.backToMain();
+		} else if (source.equals(logoutButton)) {
+			manager.logout();
 		}
 	}
 }

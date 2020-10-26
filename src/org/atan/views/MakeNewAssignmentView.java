@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,8 +28,7 @@ import org.atan.controller.ViewController;
 import org.atan.users.AdminAccount;
 import org.atan.users.TeacherAccount;
 
-public class MakeClassView extends JPanel implements ActionListener{
-
+public class MakeNewAssignmentView extends JPanel implements ActionListener {
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
@@ -36,15 +36,17 @@ public class MakeClassView extends JPanel implements ActionListener{
 	private ViewController manager;
 	private JButton submitButton;
 
-	private JTextField taughtByField;
+	private JTextField descriptionField;
 	private JButton backButton;
 	private JLabel errorMessageLabel;
-	private JTextField classNameField;
-	private JComboBox<String> classTimeBox;
+	private JTextField assignmentNameField;
+	private JTextField dueDateField;
+	private JComboBox<String> classChoicesBox;
+	private JLabel classOption;
 	
-	private static final String[] times = {"", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
+	private String[] classes;
 	
-	public MakeClassView(ViewController manager) {
+	public MakeNewAssignmentView(ViewController manager) {
 		super();
 		
 		this.manager = manager;
@@ -62,9 +64,10 @@ public class MakeClassView extends JPanel implements ActionListener{
 		
 		createTitle();
 		createBackButton();
-		createNameAndTime();
-		createTaughtBy();
+		createNameAndDueDate();
+		createDescription();
 		addSubmitButton();
+		createClassChoices();
 	}
 	
 	private void createAccountName() {
@@ -102,9 +105,9 @@ public class MakeClassView extends JPanel implements ActionListener{
 		this.add(settings);
 	}
 	
-	public void populate(AdminAccount AdminAccount) {
-		accountName.setText("Account Name: " + AdminAccount.getName());
-		accountID.setText("Account ID: " + AdminAccount.getAdminID());
+	public void populate(TeacherAccount TeacherAccount) {
+		accountName.setText("Account Name: " + TeacherAccount.getName());
+		accountID.setText("Account ID: " + TeacherAccount.getTeacherID());
 	}
 
 	@Override
@@ -119,7 +122,7 @@ public class MakeClassView extends JPanel implements ActionListener{
 	}
 	
 	private void createTitle() {
-		JLabel label = new JLabel("Make A Class", SwingConstants.CENTER);
+		JLabel label = new JLabel("Make An Assignment", SwingConstants.CENTER);
 		label.setBounds(0, 75, 500, 35);
 		label.setFont(new Font("Dialog Input", Font.BOLD, 21));
 		
@@ -143,43 +146,64 @@ public class MakeClassView extends JPanel implements ActionListener{
 		this.add(backButton);
 	}
 	
-	private void createNameAndTime() {
-		JLabel className = new JLabel ("Class Name :",  SwingConstants.RIGHT);
-		className.setLabelFor(classNameField);
-		JLabel classTime = new JLabel("Class Time :",  SwingConstants.RIGHT);
-		classTime.setLabelFor(classTimeBox);
+	private void createNameAndDueDate() {
+		JLabel assignmentName = new JLabel ("Assignment Name :",  SwingConstants.RIGHT);
+		assignmentName.setLabelFor(assignmentNameField);
+		JLabel dueDate = new JLabel("Due Date :",  SwingConstants.RIGHT);
+		dueDate.setLabelFor(dueDateField);
 		
-		className.setBounds(50, 170, 150, 35);
-		classTime.setBounds(50, 210, 150, 35);
+		assignmentName.setBounds(50, 170, 150, 35);
+		dueDate.setBounds(50, 210, 150, 35);
 		
-		className.setFont(new Font("DialogInput", Font.BOLD, 14));
-		classTime.setFont(new Font("DialogInput", Font.BOLD, 14));
+		assignmentName.setFont(new Font("DialogInput", Font.BOLD, 14));
+		dueDate.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		classNameField = new JTextField();
-		classNameField.setBounds(210, 170, 200, 35);
-
-		classTimeBox = new JComboBox<String>(times);
-		classTimeBox.setBounds(210, 210, 200, 35);
+		assignmentNameField = new JTextField();
+		assignmentNameField.setBounds(210, 170, 200, 35);
 		
-		this.add(className);
-		this.add(classTime);
-		this.add(classNameField);
-		this.add(classTimeBox);
+		dueDateField = new JTextField();
+		dueDateField.setBounds(210, 210, 200, 35);
+		
+		this.add(assignmentName);
+		this.add(dueDate);
+		this.add(assignmentNameField);
+		this.add(dueDateField);
 	}
 	
-	private void createTaughtBy() {
-		JLabel taughtBy = new JLabel ("Teacher's Email :", SwingConstants.CENTER);
-		taughtBy.setLabelFor(taughtByField);
+	private void createDescription() {
+		JLabel description = new JLabel ("Description :", SwingConstants.CENTER);
+		description.setLabelFor(descriptionField);
 		
-		taughtBy.setBounds(10, 290, 250, 35);
+		description.setBounds(22, 290, 250, 35);
 		
-		taughtBy.setFont(new Font("DialogInput", Font.BOLD, 14));
+		description.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		taughtByField = new JTextField();
-		taughtByField.setBounds(210, 290, 200, 35);
+		descriptionField = new JTextField();
+		descriptionField.setBounds(210, 290, 200, 35);
 		
-		this.add(taughtBy);
-		this.add(taughtByField);
+		this.add(description);
+		this.add(descriptionField);
+	}
+	
+	public void createClassChoices() {
+		classOption = new JLabel("Pick a Class :", SwingConstants.LEFT);
+		classOption.setLabelFor(classChoicesBox);
+		
+		classOption.setBounds(87, 250, 250, 35);
+		classOption.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		classes = new String[manager.returnTeacherClasses().size()];
+		classes[0] = "";
+		for (int x = 1; x < manager.returnTeacherClasses().size(); x++) {
+			String addClass = GUI.classes.get(manager.returnTeacherClasses().get(x)).getClassName(); 
+			classes[x] = addClass;
+		}
+		
+		classChoicesBox = new JComboBox<String>(classes);
+		classChoicesBox.setBounds(210, 250, 200, 35);
+		
+		this.add(classChoicesBox);
+		this.add(classOption);
 	}
 	
 	public void changeErrorText(String s) {
@@ -187,7 +211,7 @@ public class MakeClassView extends JPanel implements ActionListener{
 	}
 	
 	public void addSubmitButton() {
-		submitButton = new JButton("Create Class");
+		submitButton = new JButton("Create Assignment");
 		submitButton.setBounds(210,435,200,35);
 		
 		submitButton.addActionListener(new ActionListener() {
@@ -196,13 +220,14 @@ public class MakeClassView extends JPanel implements ActionListener{
 				
 				
 				if (source.equals(submitButton)) {
-					String className = classNameField.getText();
-					String classTime = classTimeBox.getSelectedItem().toString();
-					String taughtBy = taughtByField.getText();
+					String assignmentName = assignmentNameField.getText();
+					String className = classChoicesBox.getSelectedItem().toString();
+					String description = descriptionField.getText();
+					String dueDate = dueDateField.getText();
 					
-					//implement Blank Error
+					//implement Blank error;
 					
-					manager.createNewClass(className, classTime, taughtBy);
+					manager.createNewAssignment(assignmentName, description, className, dueDate);
 				}
 			}
 		});
@@ -210,9 +235,8 @@ public class MakeClassView extends JPanel implements ActionListener{
 	}
 	
 	public void clear() {
-		classTimeBox.setSelectedItem("");
-		classNameField.setText("");
-		taughtByField.setText("");
+		classChoicesBox.setSelectedItem("");
+		assignmentNameField.setText("");
+		descriptionField.setText("");
 	}
-
 }

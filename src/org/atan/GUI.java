@@ -46,7 +46,7 @@ public class GUI extends JFrame{
 	public static final int MAKE_CLASS_VIEW_INDEX = 7;
 	public static final int ASSIGNMENTS_VIEW_INDEX = 8;
 	public static final int MAKE_NEW_ASSIGNMENT_VIEW_INDEX = 9;
-	public static final int COMMENTS_VIEW_INDEX = 10;
+	public static final int COMMENTS_VIEW_INDEX = 10; //Still gotta implement
 	
 	public static ArrayList<Classes> classes;
 	public static ArrayList<AdminAccount> admins;
@@ -65,15 +65,17 @@ public class GUI extends JFrame{
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(-1);
 		
+		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+		temp1.add(0);
+		
 		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020"));
-		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp));
+		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp1));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
 		
 		classes = new ArrayList<Classes>();
 		
-		ArrayList<Integer> temp1 = new ArrayList<Integer>();
-		temp1.add(0);
+		
 		
 		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
 		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp1));
@@ -94,7 +96,7 @@ public class GUI extends JFrame{
 		views.add(new ClassShopView(manager), "CLASS_SHOP_VIEW");
 		views.add(new MakeClassView(manager), "MAKE_CLASS_VIEW");
 		views.add(new AssignmentView(manager), "ASSIGNMENTS_VIEW");
-		views.add(new ClassPanels(manager));
+		views.add(new MakeNewAssignmentView(manager), "MAKE_NEW_ASSIGNMENT_VIEW");
 		
 		this.add(views);
 		this.setBounds(100, 100, 500, 1000);

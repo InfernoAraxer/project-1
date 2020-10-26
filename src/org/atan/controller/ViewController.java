@@ -19,7 +19,7 @@ public class ViewController {
 	public ViewController (Container views) {
 		this.views = views;
 		ViewController.activeStudentUser = GUI.students.get(0);
-		ViewController.activeTeacherUser = null;
+		ViewController.activeTeacherUser = GUI.teachers.get(0);
 		this.activeAdminUser = null;
 	}
 	
@@ -45,6 +45,7 @@ public class ViewController {
 
     public void login(String emailAddress, char[] password, int accountType) {
         activeStudentUser = null;
+        activeTeacherUser = null;
         if (accountType == 1) {
         	LoginView lv = ((LoginView) views.getComponents()[GUI.LOGIN_VIEW_INDEX]);
         	try {
@@ -284,12 +285,12 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     
-    public ArrayList<Integer> returnClasses() {
-    	if (activeStudentUser != null) {
-    		return activeStudentUser.getClasses();
-    	} else {
-    		return activeTeacherUser.getClasses();
-    	}
+    public ArrayList<Integer> returnStudentClasses() {
+    	return activeStudentUser.getClasses();
+    }
+    
+    public ArrayList<Integer> returnTeacherClasses() {
+    	return activeTeacherUser.getClasses();
     }
     
     public static void addClass() {
@@ -332,5 +333,15 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((AssignmentView) views.getComponents()[GUI.ASSIGNMENTS_VIEW_INDEX]).populateTeacher(activeTeacherUser);
     		switchTo1(GUI.ASSIGNMENTS_VIEW);
     	}
+    }
+    
+    public void goToMakeNewAssignment() {
+    	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX])
+		.populate(activeTeacherUser);
+		switchTo(GUI.MAKE_NEW_ASSIGNMENT_VIEW);
+    }
+    
+    public void createNewAssignment(String assignmentName, String description, String className, String dueDate) {
+    	//implement later
     }
 }
