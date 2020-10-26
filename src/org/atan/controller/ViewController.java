@@ -301,6 +301,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     
     public void goToMakeClass() {
     	((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX])
+		.clear();
+    	((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX])
 		.populate(activeAdminUser);
 		switchTo(GUI.MAKE_CLASS_VIEW);
     }
@@ -342,6 +344,57 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public void createNewAssignment(String assignmentName, String description, String className, String dueDate) {
-    	//implement later
+    	String classTime = className.substring(className.length() - 5);
+    	className = className.substring(0, className.length() - 6);
+    	Classes classAssignment = null;
+    	for (int x = 0; x < GUI.classes.size(); x++) {
+    		if(GUI.classes.get(x).getClassName().equals(className) && GUI.classes.get(x).getTime().equals(classTime)) {
+    			classAssignment = GUI.classes.get(x);
+    		}
+    	}
+    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate));
+    	switchTo(GUI.TEACHER_VIEW);
+    	System.out.println(GUI.classes.get(0).getClassName());
+    	int assignmentIndex = GUI.assignments.size() - 1;
+    	classAssignment.assignments.add(assignmentIndex);
+    	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX]).clear();
+    }
+    
+    public void goToDeleteTeacher() {
+    	((DeleteTeacherAccountView) views.getComponents()[GUI.DELETE_TEACHER_ACCOUNT_VIEW_INDEX])
+		.clear();
+    	((DeleteTeacherAccountView) views.getComponents()[GUI.DELETE_TEACHER_ACCOUNT_VIEW_INDEX])
+		.populate(activeAdminUser);
+		switchTo(GUI.DELETE_TEACHER_ACCOUNT_VIEW);
+    }
+    
+    public void goToDeleteStudent() {
+    	((DeleteStudentAccountView) views.getComponents()[GUI.DELETE_STUDENT_ACCOUNT_VIEW_INDEX])
+		.clear();
+    	((DeleteStudentAccountView) views.getComponents()[GUI.DELETE_STUDENT_ACCOUNT_VIEW_INDEX])
+		.populate(activeAdminUser);
+		switchTo(GUI.DELETE_STUDENT_ACCOUNT_VIEW);
+    }
+    
+    public void deleteStudent(String StudentName) {
+    	int studentIndex = -1;
+    	for(int x = 0; x < GUI.students.size(); x++) {
+    		if (GUI.students.get(x).getName().equals(StudentName)) {
+    			studentIndex = x;
+    		}
+    	}
+    	GUI.students.remove(studentIndex);
+    	switchTo(GUI.ADMIN_VIEW);
+    }
+    
+    public void deleteTeacher(String teacherName) {
+    	int teacherIndex = -1;
+    	for(int x = 0; x < GUI.teachers.size(); x++) {
+    		if (GUI.teachers.get(x).getName().equals(teacherName)) {
+    			teacherIndex = x;
+    		}
+    	}
+    	GUI.teachers.remove(teacherIndex);
+    	switchTo(GUI.ADMIN_VIEW);
     }
 }

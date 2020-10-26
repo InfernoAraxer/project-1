@@ -32,6 +32,8 @@ public class AdminView extends JPanel implements ActionListener {
 	private JButton settings;
 	private ViewController manager;
 	private JButton makeClassButton;
+	private JButton deleteTeacher;
+	private JButton deleteStudent;
 	
 	public AdminView(ViewController manager) {
 		super();
@@ -49,11 +51,13 @@ public class AdminView extends JPanel implements ActionListener {
 		createLogoutButton();
 		createSettingsIcon();
 		makeClassButton();
+		createDeleteTeacherButton();
+		createDeleteStudentButton();
 	}
 	
 	private void createAccountName() {
 		accountName = new JLabel("Account Name: ");
-		accountName.setBounds(10, 0, 190, 35);
+		accountName.setBounds(10, 0, 290, 35);
 		accountName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(accountName);
@@ -101,12 +105,32 @@ public class AdminView extends JPanel implements ActionListener {
 			manager.logout();
 		} else if (source.equals(makeClassButton)) {
 			manager.goToMakeClass();
+		} else if (source.equals(deleteStudent)) {
+			manager.goToDeleteStudent();
+		} else if (source.equals(deleteTeacher)) {
+			manager.goToDeleteTeacher();
 		}
 	}
 	
+	public void createDeleteStudentButton() {
+		deleteStudent = new JButton("Delete a Student's Account");
+		deleteStudent.setBounds(10, 350, 465, 240);
+		deleteStudent.addActionListener(this);
+		
+		this.add(deleteStudent);
+	}
+	
+	public void createDeleteTeacherButton() {
+		deleteTeacher = new JButton("Delete a Teacher's Account");
+		deleteTeacher.setBounds(10, 600, 465, 240);
+		deleteTeacher.addActionListener(this);
+		
+		this.add(deleteTeacher);
+	}
+	
 	public void makeClassButton() {
-		makeClassButton = new JButton("Make Class");
-		makeClassButton.setBounds(200, 10, 100, 40);
+		makeClassButton = new JButton("Make a New Class For a Teacher");
+		makeClassButton.setBounds(10, 100, 465, 240);
 		makeClassButton.addActionListener(this);
 		
 		this.add(makeClassButton);

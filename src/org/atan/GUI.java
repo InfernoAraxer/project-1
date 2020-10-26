@@ -35,6 +35,8 @@ public class GUI extends JFrame{
 	public static final String ASSIGNMENTS_VIEW = "ASSIGNMENTS_VIEW";
 	public static final String MAKE_NEW_ASSIGNMENT_VIEW = "MAKE_NEW_ASSIGNMENT_VIEW";
 	public static final String COMMENTS_VIEW = "COMMENTS_VIEW";
+	public static final String DELETE_STUDENT_ACCOUNT_VIEW = "DELETE_STUDENT_ACCOUNT_VIEW";
+	public static final String DELETE_TEACHER_ACCOUNT_VIEW = "DELETE_TEACHER_ACCOUNT_VIEW";
 	
 	public static final int LOGIN_VIEW_INDEX = 0;
 	public static final int TEACHER_VIEW_INDEX = 1;
@@ -46,7 +48,9 @@ public class GUI extends JFrame{
 	public static final int MAKE_CLASS_VIEW_INDEX = 7;
 	public static final int ASSIGNMENTS_VIEW_INDEX = 8;
 	public static final int MAKE_NEW_ASSIGNMENT_VIEW_INDEX = 9;
-	public static final int COMMENTS_VIEW_INDEX = 10; //Still gotta implement
+	public static final int COMMENTS_VIEW_INDEX = 12; //Still gotta implement
+	public static final int DELETE_STUDENT_ACCOUNT_VIEW_INDEX = 10;
+	public static final int DELETE_TEACHER_ACCOUNT_VIEW_INDEX = 11;
 	
 	public static ArrayList<Classes> classes;
 	public static ArrayList<AdminAccount> admins;
@@ -68,8 +72,12 @@ public class GUI extends JFrame{
 		ArrayList<Integer> temp1 = new ArrayList<Integer>();
 		temp1.add(0);
 		
+		ArrayList<Integer> temp2 = new ArrayList<Integer>();
+		temp2.add(-1);
+		temp2.add(0);
+		
 		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020"));
-		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp1));
+		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp2));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
 		
@@ -97,6 +105,8 @@ public class GUI extends JFrame{
 		views.add(new MakeClassView(manager), "MAKE_CLASS_VIEW");
 		views.add(new AssignmentView(manager), "ASSIGNMENTS_VIEW");
 		views.add(new MakeNewAssignmentView(manager), "MAKE_NEW_ASSIGNMENT_VIEW");
+		views.add(new DeleteStudentAccountView(manager), "DELETE_STUDENT_ACCOUNT_VIEW");
+		views.add(new DeleteTeacherAccountView(manager), "DELETE_TEACHER_ACCOUNT_VIEW");
 		
 		this.add(views);
 		this.setBounds(100, 100, 500, 1000);

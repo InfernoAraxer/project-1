@@ -8,7 +8,7 @@ public class TeacherAccount {
 	public String lastName;
 	public long phoneNumber;
 	public String emailAddress;
-	private static long nextTeacherID = 2000001L;
+	public static long nextTeacherID = 2000001L;
 	public String password;
 	private long teacherID;
 	private ArrayList<Integer> classes;

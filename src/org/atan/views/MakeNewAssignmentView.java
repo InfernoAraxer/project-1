@@ -195,7 +195,7 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		classes = new String[manager.returnTeacherClasses().size()];
 		classes[0] = "";
 		for (int x = 1; x < manager.returnTeacherClasses().size(); x++) {
-			String addClass = GUI.classes.get(manager.returnTeacherClasses().get(x)).getClassName(); 
+			String addClass = GUI.classes.get(manager.returnTeacherClasses().get(x)).getClassName() + " " + GUI.classes.get((manager.returnTeacherClasses().get(x))).getTime(); 
 			classes[x] = addClass;
 		}
 		
@@ -238,5 +238,6 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		classChoicesBox.setSelectedItem("");
 		assignmentNameField.setText("");
 		descriptionField.setText("");
+		dueDateField.setText("");
 	}
 }

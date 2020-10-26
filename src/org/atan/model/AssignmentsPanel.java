@@ -86,7 +86,7 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 	
 	private void addTime(Assignments assignment) {
 		time = new JLabel ("Due On: " + assignment.getTime(), SwingConstants.RIGHT);
-		time.setBounds(285, 0, 100, 30);
+		time.setBounds(275, 0, 185, 30);
 		time.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(time);
