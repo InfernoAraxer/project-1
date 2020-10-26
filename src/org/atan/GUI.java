@@ -32,6 +32,9 @@ public class GUI extends JFrame{
 	public static final String ACCOUNT_CREATION_VIEW = "ACCOUNT_CREATION_VIEW";
 	public static final String CLASS_SHOP_VIEW = "CLASS_SHOP_VIEW";
 	public static final String MAKE_CLASS_VIEW = "MAKE_CLASS_VIEW";
+	public static final String ASSIGNMENTS_VIEW = "ASSIGNMENTS_VIEW";
+	public static final String MAKE_NEW_ASSIGNMENT_VIEW = "MAKE_NEW_ASSIGNMENT_VIEW";
+	public static final String COMMENTS_VIEW = "COMMENTS_VIEW";
 	
 	public static final int LOGIN_VIEW_INDEX = 0;
 	public static final int TEACHER_VIEW_INDEX = 1;
@@ -41,11 +44,15 @@ public class GUI extends JFrame{
 	public static final int ACCOUNT_CREATION_VIEW_INDEX = 5;
 	public static final int CLASS_SHOP_VIEW_INDEX = 6;
 	public static final int MAKE_CLASS_VIEW_INDEX = 7;
+	public static final int ASSIGNMENTS_VIEW_INDEX = 8;
+	public static final int MAKE_NEW_ASSIGNMENT_VIEW_INDEX = 9;
+	public static final int COMMENTS_VIEW_INDEX = 10;
 	
 	public static ArrayList<Classes> classes;
 	public static ArrayList<AdminAccount> admins;
 	public static ArrayList<TeacherAccount> teachers;
 	public static ArrayList<StudentAccount> students;
+	public static ArrayList<Assignments> assignments;
 	
 	@SuppressWarnings("static-access")
 	public GUI() {
@@ -54,19 +61,23 @@ public class GUI extends JFrame{
 		teachers = new ArrayList<TeacherAccount>();
 		students = new ArrayList<StudentAccount>();
 		admins = new ArrayList<AdminAccount>();
+		assignments = new ArrayList<Assignments>();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(-1);
 		
-		
+		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020"));
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
 		
 		classes = new ArrayList<Classes>();
 		
-		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2"));
-		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4"));
-		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8"));
+		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+		temp1.add(0);
+		
+		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
+		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp1));
+		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8", temp1));
 		
 	}
 	
@@ -82,6 +93,8 @@ public class GUI extends JFrame{
 		views.add(new AccountCreationView(manager), "ACCOUNT_CREATION_VIEW");
 		views.add(new ClassShopView(manager), "CLASS_SHOP_VIEW");
 		views.add(new MakeClassView(manager), "MAKE_CLASS_VIEW");
+		views.add(new AssignmentView(manager), "ASSIGNMENTS_VIEW");
+		views.add(new ClassPanels(manager));
 		
 		this.add(views);
 		this.setBounds(100, 100, 500, 1000);

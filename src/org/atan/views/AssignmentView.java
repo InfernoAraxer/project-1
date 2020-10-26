@@ -20,14 +20,26 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.atan.GUI;
+import org.atan.controller.ViewController;
+import org.atan.model.AssignmentsList;
+import org.atan.model.ClassList;
+import org.atan.users.Classes;
+import org.atan.users.StudentAccount;
+import org.atan.users.TeacherAccount;
 
-public class AssignmentView extends JPanel{
+
+public class AssignmentView extends JPanel implements ActionListener{
 	private JLabel accountName;
 	private JLabel accountID;
 	private JButton logoutButton;
+	private JButton backButton;
+	private ViewController manager;
 	
-	public AssignmentView() {
+	public AssignmentView(ViewController manager) {
 		super();
+		
+		this.manager = manager;
 		
 		this.init();
 	}
@@ -39,6 +51,7 @@ public class AssignmentView extends JPanel{
 		createAccountID();
 		createLogoutButton();
 		createSettingsIcon();
+		createBackButton();
 	}
 	
 	private void createAccountName() {
@@ -73,5 +86,42 @@ public class AssignmentView extends JPanel{
 		JButton settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
 		this.add(settings);
+	}
+	
+	public void populateStudent(StudentAccount StudentAccount) {
+		accountName.setText("Account Name: " + StudentAccount.getName());
+		accountID.setText("Account ID: " + StudentAccount.getStudentID());
+	}
+	
+	public void populateTeacher(TeacherAccount TeacherAccount) {
+		accountName.setText("Account Name: " + TeacherAccount.getName());
+		accountID.setText("Account ID: " + TeacherAccount.getTeacherID());
+	}
+	
+	public void createAssignments(int x) {
+		this.removeAll();
+		this.init();
+		JPanel views = new JPanel(new CardLayout());
+		
+		views.add(new AssignmentsList(x), "CLASS_LIST");
+		views.setBounds(5, 65, 475, 100 * GUI.classes.get(x).getAssignments().size());
+		this.add(views);
+	}
+	
+	private void createBackButton() {
+		backButton = new JButton("Bo Back to Class Screen");
+		backButton.setBounds(5, 775, 475, 50);
+		backButton.addActionListener(this);
+		
+		this.add(backButton);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		if (source.equals(backButton)) {
+			manager.backToMain();
+		}
 	}
 }

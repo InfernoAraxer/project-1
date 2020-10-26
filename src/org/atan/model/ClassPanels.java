@@ -28,6 +28,7 @@ import org.atan.users.TeacherAccount;
 public class ClassPanels extends JPanel implements ActionListener{
 	
 	public static int addClass;
+	public static int assignmentClass;
 	private JLabel className;
 	private JLabel classID;
 	private JLabel time;
@@ -39,19 +40,23 @@ public class ClassPanels extends JPanel implements ActionListener{
 	public int x;
 	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
-	public ClassPanels(int i, boolean inClass) {
+	public ClassPanels(int i, boolean inClassShop) {
 		super();
 		
-		this.init(i, inClass);
+		this.init(i, inClassShop);
 	}
 	
-	public void init(int x, boolean inClass) {
+	public ClassPanels(ViewController manager) {
+		this.manager = manager;
+	}
+	
+	public void init(int x, boolean inClassShop) {
 		this.setLayout(null);
 		
 		createClassName(GUI.classes.get(x));
 		createClassID(GUI.classes.get(x));
-		createCheckAssignments();
-		addPurchase(inClass);
+		createCheckAssignments(inClassShop);
+		addPurchase(inClassShop);
 		addTeacherName(GUI.classes.get(x));
 		addTime(GUI.classes.get(x));
 	}
@@ -76,19 +81,21 @@ public class ClassPanels extends JPanel implements ActionListener{
 		this.add(classID);
 	}
 	
-	private void createCheckAssignments() {
-		assignments = new JButton ("Check Assignments");
-		assignments.setBounds(10, 60, 220, 30);
-		assignments.setFont(new Font("DialogInput", Font.BOLD, 14));
-		assignments.addActionListener(this);
-		
-		this.add(assignments);
+	private void createCheckAssignments(boolean inClassShop) {
+		if (!inClassShop) {
+			assignments = new JButton ("Check Assignments");
+			assignments.setBounds(10, 60, 455, 30);
+			assignments.setFont(new Font("DialogInput", Font.BOLD, 14));
+			assignments.addActionListener(this);
+			
+			this.add(assignments);
+		}
 	}
 	
 	private void addPurchase(boolean inClass) {
 		if (inClass) {
 		purchase = new JButton ("Purchase Class");
-		purchase.setBounds(235, 60, 230, 30);
+		purchase.setBounds(10, 60, 455, 30);
 		purchase.setFont(new Font("DialogInput", Font.BOLD, 14));
 		purchase.addActionListener(this);
 		
@@ -120,7 +127,8 @@ public class ClassPanels extends JPanel implements ActionListener{
 			addClass = Integer.valueOf((classID.getText()).substring(10)) - 5000000;
 			ViewController.addClass();
 		} else if (source.equals(assignments)) {
-			System.out.print("Class ID: " + (classID.getText()).substring(8) + "\n");
+			assignmentClass = Integer.valueOf((classID.getText()).substring(10)) - 5000000;
+			ViewController.checkAssignments();
 		}
 		
 	}

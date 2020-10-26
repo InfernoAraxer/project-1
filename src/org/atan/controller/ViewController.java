@@ -12,14 +12,14 @@ import org.atan.views.*;
 
 public class ViewController {
 	private static Container views;
-	private TeacherAccount activeTeacherUser;
+	private static TeacherAccount activeTeacherUser;
 	private static StudentAccount activeStudentUser;
 	private AdminAccount activeAdminUser;
 	
 	public ViewController (Container views) {
 		this.views = views;
 		ViewController.activeStudentUser = GUI.students.get(0);
-		this.activeTeacherUser = null;
+		ViewController.activeTeacherUser = null;
 		this.activeAdminUser = null;
 	}
 	
@@ -36,6 +36,10 @@ public class ViewController {
 	}
 	
 	public void switchTo(String view) {
+		((CardLayout) views.getLayout()).show(views, view);
+	}
+	
+	public static void switchTo1(String view) {
 		((CardLayout) views.getLayout()).show(views, view);
 	}
 
@@ -307,12 +311,26 @@ public void createAccount(String firstName, String lastName, String emailAddress
     			teach = x;
     		}
     	}
-    	GUI.classes.add(new Classes(className, GUI.teachers.get(teach), classTime));
+    	ArrayList<Integer> temp = new ArrayList<Integer>();
+		temp.add(-1);
+    	GUI.classes.add(new Classes(className, GUI.teachers.get(teach), classTime, temp));
     	switchTo(GUI.ADMIN_VIEW);
     	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
     	.reset();
     	
     	GUI.teachers.get(teach).getClasses().add(GUI.classes.size()-1);
     	((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX]).clear();
+    }
+    
+    public static void checkAssignments() {
+    	if (activeStudentUser != null) {
+    		((AssignmentView) views.getComponents()[GUI.ASSIGNMENTS_VIEW_INDEX]).createAssignments(ClassPanels.assignmentClass);
+    		((AssignmentView) views.getComponents()[GUI.ASSIGNMENTS_VIEW_INDEX]).populateStudent(activeStudentUser);
+    		switchTo1(GUI.ASSIGNMENTS_VIEW);
+    	} else if (activeTeacherUser != null) {
+    		((AssignmentView) views.getComponents()[GUI.ASSIGNMENTS_VIEW_INDEX]).createAssignments(ClassPanels.assignmentClass);
+    		((AssignmentView) views.getComponents()[GUI.ASSIGNMENTS_VIEW_INDEX]).populateTeacher(activeTeacherUser);
+    		switchTo1(GUI.ASSIGNMENTS_VIEW);
+    	}
     }
 }
