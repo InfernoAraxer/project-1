@@ -104,7 +104,7 @@ public class AssignmentView extends JPanel implements ActionListener{
 		JPanel views = new JPanel(new CardLayout());
 		
 		views.add(new AssignmentsList(x), "CLASS_LIST");
-		views.setBounds(5, 65, 475, 100 * GUI.classes.get(x).getAssignments().size());
+		views.setBounds(5, 65, 475, 100 * (GUI.classes.get(x).getAssignments().size() - 1));
 		this.add(views);
 	}
 	

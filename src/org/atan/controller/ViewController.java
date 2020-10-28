@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.util.ArrayList;
 
 import org.atan.GUI;
+import org.atan.model.AssignmentsPanel;
 import org.atan.model.ClassPanels;
 import org.atan.users.*;
 import org.atan.views.*;
@@ -338,25 +339,26 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public void goToMakeNewAssignment() {
+    	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX]).reset();
     	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX])
 		.populate(activeTeacherUser);
 		switchTo(GUI.MAKE_NEW_ASSIGNMENT_VIEW);
     }
-    
+
     public void createNewAssignment(String assignmentName, String description, String className, String dueDate) {
     	String classTime = className.substring(className.length() - 5);
     	className = className.substring(0, className.length() - 6);
-    	Classes classAssignment = null;
+    	int y = -1;
     	for (int x = 0; x < GUI.classes.size(); x++) {
     		if(GUI.classes.get(x).getClassName().equals(className) && GUI.classes.get(x).getTime().equals(classTime)) {
-    			classAssignment = GUI.classes.get(x);
+    			y = x;
     		}
     	}
-    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate));
+    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, ""));
     	switchTo(GUI.TEACHER_VIEW);
     	System.out.println(GUI.classes.get(0).getClassName());
     	int assignmentIndex = GUI.assignments.size() - 1;
-    	classAssignment.assignments.add(assignmentIndex);
+    	GUI.classes.get(y).assignments.add(assignmentIndex);
     	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX]).clear();
     }
     
@@ -396,5 +398,31 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	}
     	GUI.teachers.remove(teacherIndex);
     	switchTo(GUI.ADMIN_VIEW);
+    }
+    
+    public static void goToComments() {
+    	if (activeStudentUser != null) {
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateStudent(activeStudentUser);
+    		switchTo1(GUI.COMMENTS_VIEW);
+    		System.out.print(AssignmentsPanel.assignmentIndex);
+    	} else if (activeTeacherUser != null) {
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateTeacher(activeTeacherUser);
+    		switchTo1(GUI.COMMENTS_VIEW);
+    		System.out.print(AssignmentsPanel.assignmentIndex);
+    	}	
+    }
+    
+    public static void addComment(String comment) {
+    	if (activeStudentUser != null) {
+    		comment = (activeStudentUser.getName() + ": " + comment + "<br>");
+    		GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments += comment;
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).refreshComments();
+    	} else if (activeTeacherUser != null) {
+    		comment = (activeTeacherUser.getName() + ": " + comment + "<br>");
+    		GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments += comment;
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).refreshComments();
+    	}
     }
 }

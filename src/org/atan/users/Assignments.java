@@ -10,13 +10,19 @@ public class Assignments {
 	private long assignmentID;
 	private String desc;
 	private String time;
+	public String comments;
 	
-	public Assignments(String assignmentName, String desc, String time) {
+	public Assignments(String assignmentName, String desc, String time, String comments) {
 		this.assignmentName = assignmentName;
 		this.desc = desc;
 		this.time = time;
+		this.comments = comments;
 		
 		this.assignmentID = Assignments.nextAssignmentID++;
+	}
+	
+	public String getComments() {
+		return comments;
 	}
 	
 	public String getAssignmentName() {

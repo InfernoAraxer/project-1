@@ -29,29 +29,32 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 
 	public static int addClass;
 	private JLabel assignmentName;
-	private JLabel assignmentID;
+	private JLabel assignmentDesc;
 	private JLabel time;
 	private JLabel taught;
 	private JButton comments;
 	private ViewController manager;
 	private static TeacherAccount teacher;
+	public static int assignmentIndex;
+	private int assignmentID;
 	public int x;
 	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
-	public AssignmentsPanel(int i, int j) {
+	public AssignmentsPanel(int x, int y) {
 		super();
 		
-		this.init(i, j);
+		this.init(x, y);
 	}
 	
 	public void init(int x, int y) {
 		this.setLayout(null);
 		
-		createAssignmentName(GUI.assignments.get(GUI.classes.get(x).assignments.get(y)));
-		createAssignmentID(GUI.assignments.get(GUI.classes.get(x).assignments.get(y)));
+		createAssignmentName(GUI.assignments.get(y));
+		createAssignmentID(GUI.assignments.get(y));
 		createComments();
 		addTeacherName(GUI.classes.get(x));
-		addTime(GUI.assignments.get(GUI.classes.get(x).assignments.get(y)));
+		addTime(GUI.assignments.get(y));
+		
 	}
 /*	
 	public static void giveTeacherAccount(TeacherAccount teacher) {
@@ -68,11 +71,12 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 	}
 	
 	private void createAssignmentID(Assignments assignment) {
-		assignmentID = new JLabel ("Assignment Desc: " + assignment.getDesc());
-		assignmentID.setBounds(10, 30, 150, 30);
-		assignmentID.setFont(new Font("DialogInput", Font.BOLD, 14));
+		assignmentDesc = new JLabel ("Assignment Desc: " + assignment.getDesc());
+		assignmentDesc.setBounds(10, 30, 150, 30);
+		assignmentDesc.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		this.add(assignmentID);
+		this.add(assignmentDesc);
+		assignmentID = (int) ((assignment.getAssignmentID()) - 6000000);
 	}
 	
 	private void createComments() {
@@ -104,10 +108,9 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
-		
 		if (source.equals(comments)) {
-			System.out.print("Class ID: \n");
-			//manager.checkAssignments();
+			assignmentIndex = assignmentID;
+			ViewController.goToComments();
 		}
 		
 	}

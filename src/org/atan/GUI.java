@@ -70,13 +70,14 @@ public class GUI extends JFrame{
 		temp.add(-1);
 		
 		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+		temp1.add(-1);
 		temp1.add(0);
 		
 		ArrayList<Integer> temp2 = new ArrayList<Integer>();
 		temp2.add(-1);
 		temp2.add(0);
 		
-		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020"));
+		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", ""));
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp2));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
@@ -107,6 +108,7 @@ public class GUI extends JFrame{
 		views.add(new MakeNewAssignmentView(manager), "MAKE_NEW_ASSIGNMENT_VIEW");
 		views.add(new DeleteStudentAccountView(manager), "DELETE_STUDENT_ACCOUNT_VIEW");
 		views.add(new DeleteTeacherAccountView(manager), "DELETE_TEACHER_ACCOUNT_VIEW");
+		views.add(new CommentsView(manager), "COMMENTS_VIEW");
 		
 		this.add(views);
 		this.setBounds(100, 100, 500, 1000);

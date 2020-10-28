@@ -36,9 +36,10 @@ public class AssignmentsList extends JPanel{
 	public void init(int x) {
 		this.setLayout(new GridLayout(0, 1));
 		
-		for (int i = 0; i < GUI.classes.get(x).assignments.size(); i++){
+		for (int i = 1; i < GUI.classes.get(x).assignments.size(); i++){
 		    addClassToGrid(x, GUI.classes.get(x).assignments.get(i));
 		}
+		
 	}
 	
 	private void addClassToGrid(int x, int i) {

@@ -240,4 +240,9 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		descriptionField.setText("");
 		dueDateField.setText("");
 	}
+	
+	public void reset() {
+		this.removeAll();
+		this.init();
+	}
 }
