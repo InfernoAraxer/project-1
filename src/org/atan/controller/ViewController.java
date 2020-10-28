@@ -354,7 +354,7 @@ public void createAccount(String firstName, String lastName, String emailAddress
     			y = x;
     		}
     	}
-    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, ""));
+    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, "", -1));
     	switchTo(GUI.TEACHER_VIEW);
     	System.out.println(GUI.classes.get(0).getClassName());
     	int assignmentIndex = GUI.assignments.size() - 1;
@@ -402,12 +402,12 @@ public void createAccount(String firstName, String lastName, String emailAddress
     
     public static void goToComments() {
     	if (activeStudentUser != null) {
-    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, false);
     		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateStudent(activeStudentUser);
     		switchTo1(GUI.COMMENTS_VIEW);
     		System.out.print(AssignmentsPanel.assignmentIndex);
     	} else if (activeTeacherUser != null) {
-    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, true);
     		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateTeacher(activeTeacherUser);
     		switchTo1(GUI.COMMENTS_VIEW);
     		System.out.print(AssignmentsPanel.assignmentIndex);

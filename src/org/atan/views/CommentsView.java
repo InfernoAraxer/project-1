@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,13 +43,19 @@ public class CommentsView extends JPanel implements ActionListener{
 	private JButton sendComment;
 	private JButton addAssignment;
 	
+	private JFileChooser fileChooser = new JFileChooser();
+	
+	private JLabel fileName;
+	private JButton fileDownload;
+	//connect this to assignment later;
+	
 	public CommentsView(ViewController manager) {
 		super();
 		
 		this.manager = manager;
 	}
 	
-	private void init(int x) {
+	private void init(int x, boolean isTeacher) {
 		this.setLayout(null);
 		
 		createAccountName();
@@ -64,7 +71,10 @@ public class CommentsView extends JPanel implements ActionListener{
 		createComments(x);
 		addMessageBox();
 		createSendCommentButton();
-		createSubmitAssignmentButton();
+		createSubmitAssignmentButton(isTeacher);
+		
+		createFileName(x ,isTeacher);
+		createDownloadButton(isTeacher);
 	}
 	
 	private void createAccountName() {
@@ -121,7 +131,14 @@ public class CommentsView extends JPanel implements ActionListener{
 			String comment = this.comment.getText();
 			ViewController.addComment(comment);
 		} else if (source.equals(addAssignment)) {
-			
+			if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				java.io.File file = fileChooser.getSelectedFile();
+				GUI.files.add(file);
+				GUI.assignments.get(AssignmentsPanel.assignmentIndex).fileIndex = GUI.files.size() - 1;
+				fileName.setText(file.getName());
+			} else {
+				//print error that no file was selected
+			}
 		}
 		
 	}
@@ -160,10 +177,10 @@ public class CommentsView extends JPanel implements ActionListener{
 	}
 	
 	private void createDescription(int x) {
-		//set restriction if desc is too long;
 		assignmentDesc = new JLabel("<html><p style=\"width:350px, top=120px\">" + "Assigment Description: " + GUI.assignments.get(x).getDesc() + "</p></html>");
-		assignmentDesc.setBounds(10, 120, 475, 70);
+		assignmentDesc.setBounds(10, 140, 475, 70);
 		assignmentDesc.setFont(new Font("DialogInput", Font.BOLD, 14));
+		assignmentDesc.setVerticalAlignment(JLabel.TOP);
 		
 		this.add(assignmentDesc);
 	}
@@ -172,7 +189,7 @@ public class CommentsView extends JPanel implements ActionListener{
 		JLabel commentsTitle = new JLabel("Comments", SwingConstants.CENTER);
 		commentsTitle.setFont(new Font("DialogInput", Font.BOLD, 20));
 		commentsTitle.setBounds(10, 200, 475, 35);
-		assignmentComments = new JLabel("<html><p style=\"width:350px\" align:\"top\">" + GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments + "<br></p></html>");
+		assignmentComments = new JLabel("<html><p style=\"width:350px\">" + GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments + "<br></p></html>");
 		assignmentComments.setBounds(10, 230, 490, 440);
 		assignmentComments.setFont(new Font("DialogInput", Font.BOLD, 14));
 		assignmentComments.setVerticalAlignment(JLabel.TOP);
@@ -195,21 +212,53 @@ public class CommentsView extends JPanel implements ActionListener{
 		this.add(sendComment);
 	}
 	
-	private void createSubmitAssignmentButton() {
-		addAssignment = new JButton("Send Assignment");
-		addAssignment.setBounds(5, 730, 475, 40);
-		addAssignment.addActionListener(this);
-		
-		this.add(addAssignment);
+	private void createSubmitAssignmentButton(boolean isTeacher) {
+		if (!isTeacher) {
+			addAssignment = new JButton("Send Assignment");
+			addAssignment.setBounds(340, 730, 140, 40);
+			addAssignment.addActionListener(this);
+			
+			this.add(addAssignment);
+		}
 	}
 	
-	public void reset(int x) {
+	public void reset(int x, boolean isTeacher) {
 		this.removeAll();
-		this.init(x);
+		this.init(x, isTeacher);
 	}
 	
 	public void refreshComments() {
-		assignmentComments.setText("<html><p style=\"width:350px\" align=\"top\">" + GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments + "<br></p></html>");
+		assignmentComments.setText("<html><p style=\"width:350px\">" + GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments + "<br></p></html>");
 		comment.setText("");
+	}
+	
+	private void createFileName(int x, boolean isTeacher) {
+		fileName = new JLabel("No File Submitted", SwingConstants.CENTER);
+		if (!isTeacher) {
+			fileName.setBounds(10, 730, 175, 40);
+		} else {
+			fileName.setBounds(10, 730, 250, 40);
+		}
+		if (GUI.assignments.get(x).fileIndex != -1) {
+			fileName.setText(GUI.files.get(x).getName());
+		}
+		
+		fileName.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		this.add(fileName);
+	}
+	
+	private void createDownloadButton(boolean isTeacher) {
+		fileDownload = new JButton("Download File");
+		if (!isTeacher) {
+			fileDownload.setBounds(195, 730, 140, 40);
+		} else {
+			fileDownload.setBounds(260, 730, 220, 40);
+		}
+		
+		this.add(fileDownload);
+		
+		//make it so if button was ckicked and no file exit, an error would appear.
+		//Also make it so that a file is actually downloaded
 	}
 }

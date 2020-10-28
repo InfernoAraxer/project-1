@@ -1,7 +1,7 @@
 package org.atan;
 
 import java.awt.CardLayout;
-
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -57,6 +57,7 @@ public class GUI extends JFrame{
 	public static ArrayList<TeacherAccount> teachers;
 	public static ArrayList<StudentAccount> students;
 	public static ArrayList<Assignments> assignments;
+	public static ArrayList<File> files;
 	
 	@SuppressWarnings("static-access")
 	public GUI() {
@@ -66,6 +67,7 @@ public class GUI extends JFrame{
 		students = new ArrayList<StudentAccount>();
 		admins = new ArrayList<AdminAccount>();
 		assignments = new ArrayList<Assignments>();
+		files = new ArrayList<File>();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(-1);
 		
@@ -77,7 +79,7 @@ public class GUI extends JFrame{
 		temp2.add(-1);
 		temp2.add(0);
 		
-		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", ""));
+		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", "", -1));
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp2));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
