@@ -77,6 +77,12 @@ public class GUI extends JFrame{
 		temp1.add(-1);
 		temp1.add(0);
 		
+		ArrayList<Integer> temp3 = new ArrayList<Integer>();
+		temp3.add(-1);
+		
+		ArrayList<Integer> temp4 = new ArrayList<Integer>();
+		temp4.add(-1);
+		
 		ArrayList<Integer> temp2 = new ArrayList<Integer>();
 		temp2.add(-1);
 		temp2.add(0);
@@ -89,8 +95,8 @@ public class GUI extends JFrame{
 		classes = new ArrayList<Classes>();	
 		
 		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
-		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp1));
-		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8", temp1));
+		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp3));
+		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8", temp4));
 		
 	}
 	

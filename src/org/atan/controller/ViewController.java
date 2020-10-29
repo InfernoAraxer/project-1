@@ -299,7 +299,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public static void addClass() {
-    	activeStudentUser.getClasses().add(ClassPanels.addClass);
+    	for(int x = 0; x < GUI.students.size(); x++) {
+    		if(GUI.students.get(x) == activeStudentUser) {
+    			GUI.students.get(x).classes.add(ClassPanels.addClass);
+    		}
+    	}
     	((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
     	.createActiveClasses();
     }

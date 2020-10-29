@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import org.atan.GUI;
 import org.atan.controller.ViewController;
 import org.atan.model.AssignmentsPanel;
+import org.atan.model.ClassPanels;
 import org.atan.users.AdminAccount;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
@@ -53,6 +54,7 @@ public class CommentsView extends JPanel implements ActionListener{
 	private JButton settings;
 	private JComboBox studentSelection;
 	private JButton selectStudent;
+	private long studentID;
 	
 	public CommentsView(ViewController manager) {
 		super();
@@ -159,6 +161,17 @@ public class CommentsView extends JPanel implements ActionListener{
 				fc.showSaveDialog(null);
 			} catch (Exception e1) {
 				//throw error
+			}
+		} else if (source.equals(selectStudent)) {
+			for (int x = 0; x < GUI.students.size(); x++) {
+				if (GUI.students.get(x).getStudentID() == studentID) {
+					for (int y = 0; y < GUI.students.get(x).fileIndex.size(); y++) {
+						if (GUI.students.get(x).fileIndex.get(y).substring(0,7).equals(Long.toString(AssignmentsPanel.assignmentIndex + 6000000))) {
+							int fileIndex = Integer.parseInt(GUI.students.get(x).fileIndex.get(y).substring(7));
+							fileName.setText(GUI.files.get(fileIndex).getName());
+						}
+					}
+				}
 			}
 		}
 		
@@ -294,10 +307,18 @@ public class CommentsView extends JPanel implements ActionListener{
 	}
 	
 	private void createStudentSelection(boolean isTeacher) {
-		String[] studentsName = new String[GUI.students.size()];
+		String[] studentsName = new String[GUI.students.size() + 1];
+		studentsName[0] = "";
+		int position = 1;
 		if (isTeacher) {
-			for(int x = 0; x < studentsName.length; x++) {
-				studentsName[x] = GUI.students.get(x).getName();
+			for(int x = 0; x < studentsName.length - 1; x++) {
+				for(int y = 1; y < GUI.students.get(x).classes.size(); y++) {
+					if (GUI.students.get(x).classes.get(y) == ClassPanels.assignmentClass) {
+						studentsName[position] = GUI.students.get(x).getName();
+						position++;
+						studentID = GUI.students.get(x).getStudentID();
+					}
+				}
 			}
 			
 			studentSelection = new JComboBox<String>(studentsName);
@@ -305,6 +326,7 @@ public class CommentsView extends JPanel implements ActionListener{
 			
 			selectStudent = new JButton("Select");
 			selectStudent.setBounds(360, 650, 120, 35);
+			selectStudent.addActionListener(this);
 			
 			this.add(studentSelection);
 			this.add(selectStudent);
