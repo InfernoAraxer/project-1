@@ -2,6 +2,7 @@ package org.atan.views;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -47,6 +48,7 @@ public class CommentsView extends JPanel implements ActionListener{
 	
 	private JLabel fileName;
 	private JButton fileDownload;
+	private JButton settings;
 	//connect this to assignment later;
 	
 	public CommentsView(ViewController manager) {
@@ -106,8 +108,10 @@ public class CommentsView extends JPanel implements ActionListener{
     }
 	
 	private void createSettingsIcon() {
-		JButton settings = new JButton("Settings");
+		settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
+		settings.addActionListener(this);
+		
 		this.add(settings);
 	}
 	
@@ -139,12 +143,16 @@ public class CommentsView extends JPanel implements ActionListener{
 			} else {
 				//print error that no file was selected
 			}
+		} else if (source.equals(settings)) {
+			manager.settings();
+		} else if (source.equals(fileDownload)) {
+			//download file here;
 		}
 		
 	}
 	
 	private void createBackButton() {
-		backButton = new JButton("Return to Main Screen");
+		backButton = new JButton("Return to Assignments Screen");
 		backButton.setBounds(5, 775, 475, 50);
 	
 		backButton.addActionListener(new ActionListener() {
@@ -261,4 +269,15 @@ public class CommentsView extends JPanel implements ActionListener{
 		//make it so if button was ckicked and no file exit, an error would appear.
 		//Also make it so that a file is actually downloaded
 	}
+	/*
+	private void getFileName(boolean save)
+    {   System.out.println ("proces get file name");
+        FileDialog myFD;
+        if(save) myFD = new FileDialog(c,"Save...", FileDialog.SAVE);
+                       else myFD = new FileDialog("Open...", FileDialog.LOAD);
+        myFD.setVisible(true);
+        
+    }
+    */
+	
 }

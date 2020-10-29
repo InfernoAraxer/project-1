@@ -35,6 +35,7 @@ public class AssignmentView extends JPanel implements ActionListener{
 	private JButton logoutButton;
 	private JButton backButton;
 	private ViewController manager;
+	private JButton settings;
 	
 	public AssignmentView(ViewController manager) {
 		super();
@@ -83,8 +84,10 @@ public class AssignmentView extends JPanel implements ActionListener{
     }
 	
 	private void createSettingsIcon() {
-		JButton settings = new JButton("Settings");
+		settings = new JButton("Settings");
 		settings.setBounds(305, 10, 90, 40);
+		settings.addActionListener(this);
+		
 		this.add(settings);
 	}
 	
@@ -124,6 +127,10 @@ public class AssignmentView extends JPanel implements ActionListener{
 			manager.backToMain();
 		} else if (source.equals(logoutButton)) {
 			manager.logout();
+		} else if (source.equals(settings)) {
+			manager.settings();
 		}
 	}
+	
+	
 }

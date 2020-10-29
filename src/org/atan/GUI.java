@@ -48,7 +48,7 @@ public class GUI extends JFrame{
 	public static final int MAKE_CLASS_VIEW_INDEX = 7;
 	public static final int ASSIGNMENTS_VIEW_INDEX = 8;
 	public static final int MAKE_NEW_ASSIGNMENT_VIEW_INDEX = 9;
-	public static final int COMMENTS_VIEW_INDEX = 12; //Still gotta implement
+	public static final int COMMENTS_VIEW_INDEX = 12;
 	public static final int DELETE_STUDENT_ACCOUNT_VIEW_INDEX = 10;
 	public static final int DELETE_TEACHER_ACCOUNT_VIEW_INDEX = 11;
 	
@@ -84,9 +84,7 @@ public class GUI extends JFrame{
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
 		
-		classes = new ArrayList<Classes>();
-		
-		
+		classes = new ArrayList<Classes>();	
 		
 		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
 		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp1));
