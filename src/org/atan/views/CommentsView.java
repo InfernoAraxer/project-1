@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.*;
+import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,7 +51,8 @@ public class CommentsView extends JPanel implements ActionListener{
 	private JLabel fileName;
 	private JButton fileDownload;
 	private JButton settings;
-	//connect this to assignment later;
+	private JComboBox studentSelection;
+	private JButton selectStudent;
 	
 	public CommentsView(ViewController manager) {
 		super();
@@ -57,7 +60,7 @@ public class CommentsView extends JPanel implements ActionListener{
 		this.manager = manager;
 	}
 	
-	private void init(int x, boolean isTeacher) {
+	private void init(int x, boolean isTeacher, StudentAccount studentAccount) {
 		this.setLayout(null);
 		
 		createAccountName();
@@ -70,13 +73,15 @@ public class CommentsView extends JPanel implements ActionListener{
 		createName(x);
 		createDueDate(x);
 		createDescription(x);
-		createComments(x);
+		createComments(x, isTeacher);
 		addMessageBox();
 		createSendCommentButton();
 		createSubmitAssignmentButton(isTeacher);
 		
-		createFileName(x ,isTeacher);
+		createFileName(x ,isTeacher, studentAccount);
 		createDownloadButton(isTeacher);
+		
+		createStudentSelection(isTeacher);
 	}
 	
 	private void createAccountName() {
@@ -138,7 +143,9 @@ public class CommentsView extends JPanel implements ActionListener{
 			if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 				java.io.File file = fileChooser.getSelectedFile();
 				GUI.files.add(file);
-				GUI.assignments.get(AssignmentsPanel.assignmentIndex).fileIndex = GUI.files.size() - 1;
+				String assignmentID = Long.toString(AssignmentsPanel.assignmentIndex + 6000000);
+				assignmentID += Long.toString(GUI.files.size() - 1);
+				(GUI.students.get((int) (manager.getActiveStudentUser().getStudentID() - 1000000))).fileIndex.add(assignmentID);
 				fileName.setText(file.getName());
 			} else {
 				//print error that no file was selected
@@ -146,7 +153,13 @@ public class CommentsView extends JPanel implements ActionListener{
 		} else if (source.equals(settings)) {
 			manager.settings();
 		} else if (source.equals(fileDownload)) {
-			//download file here;
+			try {
+				JFileChooser fc = new JFileChooser(GUI.files.get(GUI.assignments.get(AssignmentsPanel.assignmentIndex).fileIndex));
+				fc.setDialogTitle("Save a File");
+				fc.showSaveDialog(null);
+			} catch (Exception e1) {
+				//throw error
+			}
 		}
 		
 	}
@@ -193,12 +206,16 @@ public class CommentsView extends JPanel implements ActionListener{
 		this.add(assignmentDesc);
 	}
 	
-	private void createComments(int x) {
+	private void createComments(int x, boolean isTeacher) {
 		JLabel commentsTitle = new JLabel("Comments", SwingConstants.CENTER);
 		commentsTitle.setFont(new Font("DialogInput", Font.BOLD, 20));
 		commentsTitle.setBounds(10, 200, 475, 35);
 		assignmentComments = new JLabel("<html><p style=\"width:350px\">" + GUI.assignments.get(AssignmentsPanel.assignmentIndex).comments + "<br></p></html>");
-		assignmentComments.setBounds(10, 230, 490, 440);
+		if (!isTeacher) {
+			assignmentComments.setBounds(10, 230, 490, 440);
+		} else {
+			assignmentComments.setBounds(10, 230, 450, 440);
+		}
 		assignmentComments.setFont(new Font("DialogInput", Font.BOLD, 14));
 		assignmentComments.setVerticalAlignment(JLabel.TOP);
 		
@@ -230,9 +247,9 @@ public class CommentsView extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void reset(int x, boolean isTeacher) {
+	public void reset(int x, boolean isTeacher, StudentAccount studentAccount) {
 		this.removeAll();
-		this.init(x, isTeacher);
+		this.init(x, isTeacher, studentAccount);
 	}
 	
 	public void refreshComments() {
@@ -240,15 +257,20 @@ public class CommentsView extends JPanel implements ActionListener{
 		comment.setText("");
 	}
 	
-	private void createFileName(int x, boolean isTeacher) {
+	private void createFileName(int x, boolean isTeacher, StudentAccount studentAccount) {
 		fileName = new JLabel("No File Submitted", SwingConstants.CENTER);
 		if (!isTeacher) {
 			fileName.setBounds(10, 730, 175, 40);
 		} else {
 			fileName.setBounds(10, 730, 250, 40);
 		}
-		if (GUI.assignments.get(x).fileIndex != -1) {
-			fileName.setText(GUI.files.get(x).getName());
+		if (studentAccount != null) {
+			for(int x1 = 1; x1 < studentAccount.fileIndex.size(); x1++) {
+				if(studentAccount.fileIndex.get(x1).substring(0,7).equals(Long.toString(AssignmentsPanel.assignmentIndex + 6000000))) {
+					int fileIndex = Integer.parseInt(studentAccount.fileIndex.get(x1).substring(7));
+					fileName.setText(GUI.files.get(fileIndex).getName());
+				}
+			}
 		}
 		
 		fileName.setFont(new Font("DialogInput", Font.BOLD, 14));
@@ -263,21 +285,32 @@ public class CommentsView extends JPanel implements ActionListener{
 		} else {
 			fileDownload.setBounds(260, 730, 220, 40);
 		}
+		fileDownload.addActionListener(this);
 		
 		this.add(fileDownload);
 		
 		//make it so if button was ckicked and no file exit, an error would appear.
 		//Also make it so that a file is actually downloaded
 	}
-	/*
-	private void getFileName(boolean save)
-    {   System.out.println ("proces get file name");
-        FileDialog myFD;
-        if(save) myFD = new FileDialog(c,"Save...", FileDialog.SAVE);
-                       else myFD = new FileDialog("Open...", FileDialog.LOAD);
-        myFD.setVisible(true);
-        
-    }
-    */
 	
+	private void createStudentSelection(boolean isTeacher) {
+		String[] studentsName = new String[GUI.students.size()];
+		if (isTeacher) {
+			for(int x = 0; x < studentsName.length; x++) {
+				studentsName[x] = GUI.students.get(x).getName();
+			}
+			
+			studentSelection = new JComboBox<String>(studentsName);
+			studentSelection.setBounds(5, 650, 350, 35);
+			
+			selectStudent = new JButton("Select");
+			selectStudent.setBounds(360, 650, 120, 35);
+			
+			this.add(studentSelection);
+			this.add(selectStudent);
+		}
+		
+		
+	}
+    
 }

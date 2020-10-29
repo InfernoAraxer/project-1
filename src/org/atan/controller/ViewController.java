@@ -57,6 +57,8 @@ public class ViewController {
 	            if (activeStudentUser == null) {
 	                lv.toggleErrorMessage(true);
 	            } else {
+	            	((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
+                    	.createActiveClasses();
 	                ((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
 	                    .populate(activeStudentUser);
 	                switchTo(GUI.CLASS_VIEW);
@@ -113,8 +115,10 @@ public void createAccount(String firstName, String lastName, String emailAddress
         if (accountType == 1) {
         	try {
         		ArrayList<Integer> temp = new ArrayList<Integer>();
-        		temp.add(1);
-        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), temp));
+        		temp.add(-1);
+        		ArrayList<String> tempString = new ArrayList<String>();
+        		tempString.add("-1");
+        		GUI.students.add(new StudentAccount (firstName, lastName, phoneNumber, emailAddress, String.valueOf(password), temp, tempString));
         		acv.toggleErrorMessage(false);
         		acv.clear();
         		switchTo(GUI.LOGIN_VIEW);
@@ -354,7 +358,7 @@ public void createAccount(String firstName, String lastName, String emailAddress
     			y = x;
     		}
     	}
-    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, "", -1));
+    	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, ""));
     	switchTo(GUI.TEACHER_VIEW);
     	System.out.println(GUI.classes.get(0).getClassName());
     	int assignmentIndex = GUI.assignments.size() - 1;
@@ -402,15 +406,13 @@ public void createAccount(String firstName, String lastName, String emailAddress
     
     public static void goToComments() {
     	if (activeStudentUser != null) {
-    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, false);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, false, activeStudentUser);
     		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateStudent(activeStudentUser);
     		switchTo1(GUI.COMMENTS_VIEW);
-    		System.out.print(AssignmentsPanel.assignmentIndex);
     	} else if (activeTeacherUser != null) {
-    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, true);
+    		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).reset(AssignmentsPanel.assignmentIndex, true, null);
     		((CommentsView) views.getComponents()[GUI.COMMENTS_VIEW_INDEX]).populateTeacher(activeTeacherUser);
     		switchTo1(GUI.COMMENTS_VIEW);
-    		System.out.print(AssignmentsPanel.assignmentIndex);
     	}	
     }
     

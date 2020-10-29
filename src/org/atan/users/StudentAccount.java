@@ -12,14 +12,16 @@ public class StudentAccount {
 	public String password;
 	private long studentID;
 	public ArrayList<Integer> classes;
+	public ArrayList<String> fileIndex;
 	
-	public StudentAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password, ArrayList<Integer> classes) {
+	public StudentAccount(String firstName, String lastName, long phoneNumber, String emailAddress, String password, ArrayList<Integer> classes, ArrayList<String> fileIndex) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
 		this.password = password;
 		this.classes = classes;
+		this.fileIndex = fileIndex;
 		
 		this.studentID = StudentAccount.nextStudentID++;
 	}
@@ -54,5 +56,9 @@ public class StudentAccount {
 	
 	public ArrayList<Integer> getClasses() {
 		return classes;
+	}
+	
+	public ArrayList<String> getFileIndex() {
+		return fileIndex;
 	}
 }

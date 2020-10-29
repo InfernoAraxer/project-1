@@ -70,6 +70,8 @@ public class GUI extends JFrame{
 		files = new ArrayList<File>();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(-1);
+		ArrayList<String> tempString = new ArrayList<String>();
+		tempString.add("-1");
 		
 		ArrayList<Integer> temp1 = new ArrayList<Integer>();
 		temp1.add(-1);
@@ -79,10 +81,10 @@ public class GUI extends JFrame{
 		temp2.add(-1);
 		temp2.add(0);
 		
-		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", "", -1));
+		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", ""));
 		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp2));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
-		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp));
+		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp, tempString));
 		
 		classes = new ArrayList<Classes>();	
 		
