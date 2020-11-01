@@ -199,7 +199,7 @@ public class LoginView extends JPanel{
 	public void toggleErrorMessage(boolean show) {
 		toggleCreateAccountMessage(false);
 		if (show) {
-            errorMessageLabel.setText("Invalid account number and/or PIN.");
+            errorMessageLabel.setText("Invalid Email Address and/or Password.");
         } else {
             errorMessageLabel.setText("");
         }

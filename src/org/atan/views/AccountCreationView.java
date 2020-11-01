@@ -1,5 +1,7 @@
 package org.atan.views;
 
+//Check Email validity;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -25,7 +27,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.atan.controller.ViewController;
-
 
 public class AccountCreationView extends JPanel {
 	
@@ -141,8 +142,12 @@ public class AccountCreationView extends JPanel {
 						Long phoneNumber = Long.parseLong(phoneNumberField.getText());
 						char[] password = passwordField.getPassword();
 						char[] checkedPassword = recheckPassword.getPassword();
-						if (firstName.equals("") || lastName.equals("") || emailAddress.equals("") || phoneNumber.equals("") || password.equals("") || checkedPassword.equals("")) {
+						if (firstName.equals("") || lastName.equals("") || emailAddress.equals("") || String.valueOf(phoneNumber).equals("") || String.valueOf(password).equals("") || String.valueOf(checkedPassword).equals("")) {
 							toggleErrorMessage(true);
+						} else if (Long.toString(phoneNumber).length() != 10) {
+							changeErrorText("Please enter a valid phone number.");
+						} else if (!String.valueOf(password).equals(String.valueOf(checkedPassword))) {
+							changeErrorText("Passwords are not the same.");
 						} else {
 							if (student.isSelected()) {
 								manager.createAccount(firstName, lastName, emailAddress, phoneNumber, password, checkedPassword, 1);
@@ -155,7 +160,7 @@ public class AccountCreationView extends JPanel {
 							}
 						}
 					} catch (Exception e1) {
-						changeErrorText("Please enter the correct information into the correct places.");
+						changeErrorText("Please fill in all the blanks and enter the correct information into the correct places.");
 					}
 				}
 			}

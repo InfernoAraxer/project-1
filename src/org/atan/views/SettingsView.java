@@ -1,5 +1,9 @@
 package org.atan.views;
 
+// how to automatically close JFrame when clicked away, ask john
+//Check Email validity;
+
+
 import java.lang.ClassLoader;
 
 import java.awt.CardLayout;
@@ -19,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -57,6 +62,10 @@ public class SettingsView extends JPanel implements ActionListener{
 	private JButton returnButton;
 	private JButton submitButton;
 	private JTextField textField;
+	private JPasswordField passwordField;
+	private JPasswordField recheckPasswordField;
+	private JLabel errorMessageLabel;
+	private JLabel createdMessageLabel;
 	
 	public SettingsView(ViewController manager) {
 		super();
@@ -81,6 +90,12 @@ public class SettingsView extends JPanel implements ActionListener{
 		createEmailAddress();
 		createPassword();
 		createAccountType();
+		createSuccessMessage();	
+	}
+	
+	public void clear() {
+		this.removeAll();
+		this.init();
 	}
 	
 	private void createAccountName() {
@@ -209,9 +224,9 @@ public class SettingsView extends JPanel implements ActionListener{
 		} else if (source.equals(editLastName)) {
 			setUpPanel("What do you want to change your last name to?", 2);
 		} else if (source.equals(editPhoneNumber)) {
-			setUpPanel("What do you want to change your phone number to?", 3);
+			setUpPanel("What do you want to change your phone number to?", 4);
 		} else if (source.equals(editEmailAddress)) {
-			setUpPanel("What do you want to change your email address to?", 4);
+			setUpPanel("What do you want to change your email address to?", 3);
 		} else if (source.equals(editPassword)) {
 			setUpPanel("What do you want to change your password to?", 5);
 		}
@@ -266,10 +281,27 @@ public class SettingsView extends JPanel implements ActionListener{
 		dialog = new JDialog();
 		panel = new JPanel();
 		label = new JLabel(s, SwingConstants.CENTER);
-		textField = new JTextField();
+		if (index != 5) {
+			textField = new JTextField();
+			textField.setBounds(50, 100, 400, 30);
+			panel.add(textField);
+		} else {
+			JLabel password = new JLabel("New Password:");
+			password.setBounds(10, 60, 130, 30);
+			passwordField = new JPasswordField();
+			passwordField.setBounds(150, 60, 300, 30);
+			panel.add(passwordField);
+			panel.add(password);
+			
+			JLabel recheckPassword = new JLabel("Re-Enter Password:");
+			recheckPassword.setBounds(10, 100, 130, 30);
+			recheckPasswordField = new JPasswordField();
+			recheckPasswordField.setBounds(150, 100, 300, 30);
+			panel.add(recheckPasswordField);
+			panel.add(recheckPassword);
+		}
 		
-		label.setBounds(50, 50, 400, 30);
-		textField.setBounds(50, 100, 400, 30);
+		label.setBounds(35, 5, 400, 30);
 		panel.setLayout(null);
 		panel.add(label);
 		
@@ -286,6 +318,13 @@ public class SettingsView extends JPanel implements ActionListener{
 			}
 		});
 		
+		errorMessageLabel = new JLabel("", SwingConstants.CENTER);
+        errorMessageLabel.setBounds(0, 140, 500, 35);
+        errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessageLabel.setForeground(Color.RED);
+
+        panel.add(errorMessageLabel);
+		
 		submitButton = new JButton("Submit");
 		submitButton.setBounds(115, 200, 360, 50);
 		submitButton.addActionListener(new ActionListener() {
@@ -294,19 +333,56 @@ public class SettingsView extends JPanel implements ActionListener{
 				if (source.equals(submitButton)) {
 					switch (choice) {
 						case 1:
+							if (textField.getText().equals("")) {
+								errorMessageLabel.setText("Please enter a first name.");
+								return;
+							}
 							manager.editFirstName(textField.getText());
 							break;
 						case 2:
+							if (textField.getText().equals("")) {
+								errorMessageLabel.setText("Please enter a last name.");
+								return;
+							}
 							manager.editLastName(textField.getText());
 							break;
 						case 3:
+							if (textField.getText().equals("")) {
+								errorMessageLabel.setText("Please enter an email address.");
+								return;
+							}
 							manager.editEmailAddress(textField.getText());
 							break;
 						case 4:
-							manager.editPhoneNumber(Long.parseLong(textField.getText()));
-							break;
+							try {
+								String phoneNumber = textField.getText();
+								if (textField.getText().equals("")) {
+									errorMessageLabel.setText("Please enter a phone number.");
+									return;
+								}
+								
+								if (phoneNumber.length() != 10) {
+									errorMessageLabel.setText("The phone number is not valid.");
+									return;
+								}
+								manager.editPhoneNumber(Long.parseLong(textField.getText()));
+								break;
+							} catch (Exception e1) {
+								errorMessageLabel.setText("The phone number is not valid.");
+								return;
+							}
 						case 5:
-							manager.editPassword(textField.getText());
+							String password = String.valueOf(passwordField.getPassword());
+							String recheckPassword = String.valueOf(recheckPasswordField.getPassword());
+							if (password.equals("") || recheckPassword.equals("")) {
+								errorMessageLabel.setText("Please fill in all the blanks.");
+								return;
+							}
+							if (!password.equals(recheckPassword)) {
+								errorMessageLabel.setText("The Passwords are not the same.");
+								return;
+							}
+							manager.editPassword(password);
 							break;
 					}
 					dialog.dispose();
@@ -316,7 +392,6 @@ public class SettingsView extends JPanel implements ActionListener{
 		
 		panel.add(returnButton);
 		panel.add(submitButton);
-		panel.add(textField);
 		
 		dialog.setBounds(100, 100, 500, 300);
 		dialog.add(panel);
@@ -324,6 +399,19 @@ public class SettingsView extends JPanel implements ActionListener{
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
 		dialog.setVisible(true);
+	}
+	
+	public void createSuccessMessage() {
+        createdMessageLabel = new JLabel("", SwingConstants.CENTER);
+        createdMessageLabel.setBounds(0, 500, 500, 35);
+        createdMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        createdMessageLabel.setForeground(Color.GREEN);
+
+        this.add(createdMessageLabel);
+	}
+	
+	public void changeSuccessMessage(String s) {
+		createdMessageLabel.setText(s);
 	}
 	
 }

@@ -65,6 +65,7 @@ public class MakeClassView extends JPanel implements ActionListener{
 		createNameAndTime();
 		createTaughtBy();
 		addSubmitButton();
+		createErrorMessageLabel();
 	}
 	
 	private void createAccountName() {
@@ -182,10 +183,6 @@ public class MakeClassView extends JPanel implements ActionListener{
 		this.add(taughtByField);
 	}
 	
-	public void changeErrorText(String s) {
-		errorMessageLabel.setText(s);
-	}
-	
 	public void addSubmitButton() {
 		submitButton = new JButton("Create Class");
 		submitButton.setBounds(210,435,200,35);
@@ -196,13 +193,20 @@ public class MakeClassView extends JPanel implements ActionListener{
 				
 				
 				if (source.equals(submitButton)) {
-					String className = classNameField.getText();
-					String classTime = classTimeBox.getSelectedItem().toString();
-					String taughtBy = taughtByField.getText();
-					
-					//implement Blank Error
-					
-					manager.createNewClass(className, classTime, taughtBy);
+					try {
+						String className = classNameField.getText();
+						String classTime = classTimeBox.getSelectedItem().toString();
+						String taughtBy = taughtByField.getText();
+						
+						if (className.equals("") || classTime.equals("") || taughtBy.equals("")) {
+							changeErrorText("Fill in all the Blanks1");
+							return;
+						}
+						
+						manager.createNewClass(className, classTime, taughtBy);
+					} catch (Exception e1) {
+						changeErrorText("Fill in all the Blanks");
+					}
 				}
 			}
 		});
@@ -213,6 +217,29 @@ public class MakeClassView extends JPanel implements ActionListener{
 		classTimeBox.setSelectedItem("");
 		classNameField.setText("");
 		taughtByField.setText("");
+		toggleErrorMessage(false);
 	}
+	
+	public void createErrorMessageLabel() {
+		errorMessageLabel = new JLabel("", SwingConstants.CENTER);
+        errorMessageLabel.setBounds(0, 500, 500, 35);
+        errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessageLabel.setForeground(Color.RED);
+
+        this.add(errorMessageLabel);
+	}
+	
+	public void changeErrorText(String s) {
+		errorMessageLabel.setText(s);
+	}
+	
+	public void toggleErrorMessage(boolean error) {
+		if (error) {
+			errorMessageLabel.setText("Please Fill In All Of The Required Blanks");
+	    } else {
+	        errorMessageLabel.setText("");
+		}
+	}
+
 
 }

@@ -34,6 +34,7 @@ public class AdminView extends JPanel implements ActionListener {
 	private JButton makeClassButton;
 	private JButton deleteTeacher;
 	private JButton deleteStudent;
+	private JLabel createdMessageLabel;
 	
 	public AdminView(ViewController manager) {
 		super();
@@ -53,6 +54,7 @@ public class AdminView extends JPanel implements ActionListener {
 		makeClassButton();
 		createDeleteTeacherButton();
 		createDeleteStudentButton();
+		createSuccessMessage();	
 	}
 	
 	private void createAccountName() {
@@ -134,5 +136,31 @@ public class AdminView extends JPanel implements ActionListener {
 		makeClassButton.addActionListener(this);
 		
 		this.add(makeClassButton);
+	}
+
+	public void createSuccessMessage() {
+        createdMessageLabel = new JLabel("", SwingConstants.CENTER);
+        createdMessageLabel.setBounds(0, 60, 500, 35);
+        createdMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        createdMessageLabel.setForeground(Color.GREEN);
+
+        this.add(createdMessageLabel);
+	}
+	
+	public void toggleCreateClassMessage(boolean show) {
+		if (show) {
+			createdMessageLabel.setText("Class Successfully Created");
+		} else {
+			createdMessageLabel.setText("");
+		}
+	}
+	
+	public void changeSuccessMessage(String s) {
+			createdMessageLabel.setText(s);
+	}
+	
+	public void clear() {
+		this.removeAll();
+		this.init();
 	}
 }

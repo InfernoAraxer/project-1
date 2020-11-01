@@ -43,6 +43,7 @@ public class DeleteStudentAccountView extends JPanel implements ActionListener{
 	private JTextField classNameField;
 	private JComboBox<String> studentAccounts;
 	private JPasswordField password;
+	private JLabel errorMessageLabel;
 
 	public DeleteStudentAccountView (ViewController manager) {
 		super();
@@ -65,6 +66,7 @@ public class DeleteStudentAccountView extends JPanel implements ActionListener{
 		createSubmitButton();
 		makeStudentOptions();
 		makePasswordField();
+		createErrorMessageLabel();
 	}
 	
 	private void createAccountName() {
@@ -156,6 +158,14 @@ public class DeleteStudentAccountView extends JPanel implements ActionListener{
 					String studentName = studentAccounts.getSelectedItem().toString();
 					char[] passwordArray = password.getPassword();
 					
+					if (studentName.equals("") || String.valueOf(passwordArray).equals("")) {
+						changeErrorText("Fill in all the blanks.");
+						return;
+					} else if (!String.valueOf(passwordArray).equals(manager.getActiveAdminUser().password)) {
+						changeErrorText("That's not the correct password.");
+						return;
+					}
+					
 					manager.deleteStudent(studentName);
 				}
 			}
@@ -208,5 +218,19 @@ public class DeleteStudentAccountView extends JPanel implements ActionListener{
 	public void clear() {
 		password.setText("");
 		studentAccounts.setSelectedItem("");
+		errorMessageLabel.setText("");
+	}
+	
+	public void createErrorMessageLabel() {
+		errorMessageLabel = new JLabel("", SwingConstants.CENTER);
+        errorMessageLabel.setBounds(0, 500, 500, 35);
+        errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessageLabel.setForeground(Color.RED);
+
+        this.add(errorMessageLabel);
+	}
+	
+	public void changeErrorText(String s) {
+		errorMessageLabel.setText(s);
 	}
 }

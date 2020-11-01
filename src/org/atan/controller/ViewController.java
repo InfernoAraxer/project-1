@@ -111,7 +111,6 @@ public class ViewController {
 public void createAccount(String firstName, String lastName, String emailAddress, Long phoneNumber, char[] password, char[] checkedPassword, int accountType) {
 	AccountCreationView acv = ((AccountCreationView) views.getComponents()[GUI.ACCOUNT_CREATION_VIEW_INDEX]);
 	LoginView lv = ((LoginView) views.getComponents()[GUI.LOGIN_VIEW_INDEX]);
-	//also Check Passwords
         if (accountType == 1) {
         	try {
         		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -162,6 +161,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public void settings() {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
@@ -184,13 +185,19 @@ public void createAccount(String firstName, String lastName, String emailAddress
     public void backToMain() {
     	if (activeStudentUser != null) {
     		((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
+            .clear();
+    		((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
             .populate(activeStudentUser);
     		switchTo(GUI.CLASS_VIEW);
     	} else if (activeTeacherUser != null) {
     		((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
+            .clear();
+    		((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
             .populate(activeTeacherUser);
     		switchTo(GUI.TEACHER_VIEW);
     	} else if (activeAdminUser != null) {
+    		((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
+            .clear();
     		((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
             .populate(activeAdminUser);
     		switchTo(GUI.ADMIN_VIEW);
@@ -198,6 +205,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public void editFirstName(String s) {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		activeStudentUser.firstName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
@@ -211,9 +220,13 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     	}
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .changeSuccessMessage("Successfully Updated First Name.");
     }
     
     public void editLastName(String s) {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		activeStudentUser.lastName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
@@ -227,9 +240,13 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     	}
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .changeSuccessMessage("Successfully Updated Last Name.");
     }
     
     public void editEmailAddress(String s) {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		activeStudentUser.emailAddress = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
@@ -243,9 +260,13 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     	}
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .changeSuccessMessage("Successfully Updated Email Address.");
     }
     
     public void editPhoneNumber(Long s) {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		activeStudentUser.phoneNumber = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
@@ -259,9 +280,13 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     	}
-    } //Change so it only accepts 10 digit numbers
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .changeSuccessMessage("Successfully Updated Phone Number.");
+    } 
     
     public void editPassword(String s) {
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .clear();
     	if (activeStudentUser != null) {
     		activeStudentUser.password = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
@@ -275,6 +300,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
             .populateStudent(activeStudentUser);
     	}
+    	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
+        .changeSuccessMessage("Successfully Updated Password.");
     }
     
     public void goToShop() {
@@ -323,10 +350,25 @@ public void createAccount(String firstName, String lastName, String emailAddress
     			teach = x;
     		}
     	}
+    	if (teach == -1) {
+    		((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX]).changeErrorText("That's that a valid teacher email.");
+    		return;
+    	}
+    	
+    	for (int x = 1; x < GUI.teachers.get(teach).getClasses().size(); x++) {
+    		if ((GUI.classes.get((GUI.teachers.get(teach).getClasses().get(x)))).getTime() == classTime) {
+    			((MakeClassView) views.getComponents()[GUI.MAKE_CLASS_VIEW_INDEX]).changeErrorText("The teacher already has a class at that time.");
+        		return;
+    		}
+    	}
+    	
     	ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(-1);
     	GUI.classes.add(new Classes(className, GUI.teachers.get(teach), classTime, temp));
     	switchTo(GUI.ADMIN_VIEW);
+    	((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
+    	.toggleCreateClassMessage(true);
+    	
     	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
     	.reset();
     	
@@ -364,7 +406,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	}
     	GUI.assignments.add(new Assignments (assignmentName, description, dueDate, ""));
     	switchTo(GUI.TEACHER_VIEW);
-    	System.out.println(GUI.classes.get(0).getClassName());
+    	((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
+        .changeSuccessMessage("Assignment Created.");
     	int assignmentIndex = GUI.assignments.size() - 1;
     	GUI.classes.get(y).assignments.add(assignmentIndex);
     	((MakeNewAssignmentView) views.getComponents()[GUI.MAKE_NEW_ASSIGNMENT_VIEW_INDEX]).clear();
@@ -394,6 +437,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		}
     	}
     	GUI.students.remove(studentIndex);
+    	((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
+    	.changeSuccessMessage("Student Account Deleted.");
     	switchTo(GUI.ADMIN_VIEW);
     }
     
@@ -405,6 +450,8 @@ public void createAccount(String firstName, String lastName, String emailAddress
     		}
     	}
     	GUI.teachers.remove(teacherIndex);
+    	((AdminView) views.getComponents()[GUI.ADMIN_VIEW_INDEX])
+    	.changeSuccessMessage("Teacher Account Deleted.");
     	switchTo(GUI.ADMIN_VIEW);
     }
     

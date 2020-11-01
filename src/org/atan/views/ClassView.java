@@ -1,5 +1,7 @@
 package org.atan.views;
 
+//add scroll bar if there are too many classes
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -140,7 +142,7 @@ public class ClassView extends JPanel implements ActionListener{
 			}
 			
 			views.add(classList);
-			views.setBounds(5, 65, 475, 100 * (newList.size() - 1));
+			views.setBounds(5, 65, 475, Math.min(100 * (newList.size() - 1), 750));
 			this.add(views);
 	}
 	
@@ -157,5 +159,9 @@ public class ClassView extends JPanel implements ActionListener{
         return newList; 
     } 
     
+    public void clear() {
+		this.removeAll();
+		this.init();
+	}
     
 }

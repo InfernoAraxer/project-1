@@ -1,5 +1,7 @@
 package org.atan.views;
 
+//add scroll bar if there are too many classes
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -41,6 +43,7 @@ public class TeacherView extends JPanel implements ActionListener {
 	private ArrayList<Integer> temp;
 	private JPanel views;
 	private JPanel classList;
+	private JLabel createdMessageLabel;
 	
 	public TeacherView(ViewController manager) {
 		super();
@@ -58,6 +61,7 @@ public class TeacherView extends JPanel implements ActionListener {
 		createLogoutButton();
 		createSettingsIcon();
 		makeAssignmentButton();
+		createSuccessMessage();	
 	}
 	
 	private void createAccountName() {
@@ -130,7 +134,7 @@ public class TeacherView extends JPanel implements ActionListener {
 			}
 			
 			views.add(classList);
-			views.setBounds(5, 65, 475, 100 * (newList.size() - 1));
+			views.setBounds(5, 65, 475, Math.min(100 * (newList.size() - 1), 750));
 			this.add(views);
 	}
 	
@@ -154,6 +158,24 @@ public class TeacherView extends JPanel implements ActionListener {
 		makeAssignmentButton.addActionListener(this);
 		
 		this.add(makeAssignmentButton);
+	}
+	
+	public void clear() {
+		this.removeAll();
+		this.init();
+	}
+	
+	public void createSuccessMessage() {
+        createdMessageLabel = new JLabel("", SwingConstants.CENTER);
+        createdMessageLabel.setBounds(0, 775, 500, 35);
+        createdMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        createdMessageLabel.setForeground(Color.GREEN);
+
+        this.add(createdMessageLabel);
+	}
+	
+	public void changeSuccessMessage(String s) {
+			createdMessageLabel.setText(s);
 	}
     
 }

@@ -1,5 +1,7 @@
 package org.atan.views;
 
+//make it so there is a date choice with JSlider??? or implement custom from pset-5 in APCSA
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -68,6 +70,7 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		createDescription();
 		addSubmitButton();
 		createClassChoices();
+		createErrorMessageLabel();
 	}
 	
 	private void createAccountName() {
@@ -206,10 +209,6 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		this.add(classOption);
 	}
 	
-	public void changeErrorText(String s) {
-		errorMessageLabel.setText(s);
-	}
-	
 	public void addSubmitButton() {
 		submitButton = new JButton("Create Assignment");
 		submitButton.setBounds(210,435,200,35);
@@ -225,8 +224,11 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 					String description = descriptionField.getText();
 					String dueDate = dueDateField.getText();
 					
-					//implement Blank error;
-					
+					if (assignmentName.equals("") || className.equals("") || description.equals("") || dueDate.equals("")) {
+						changeErrorText("Please fill in all the blanks.");
+						return;
+					} 
+					// make it so a date is a date
 					manager.createNewAssignment(assignmentName, description, className, dueDate);
 				}
 			}
@@ -239,6 +241,20 @@ public class MakeNewAssignmentView extends JPanel implements ActionListener {
 		assignmentNameField.setText("");
 		descriptionField.setText("");
 		dueDateField.setText("");
+		errorMessageLabel.setText("");
+	}
+	
+	public void createErrorMessageLabel() {
+		errorMessageLabel = new JLabel("", SwingConstants.CENTER);
+        errorMessageLabel.setBounds(0, 500, 500, 35);
+        errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessageLabel.setForeground(Color.RED);
+
+        this.add(errorMessageLabel);
+	}
+	
+	public void changeErrorText(String s) {
+		errorMessageLabel.setText(s);
 	}
 	
 	public void reset() {
