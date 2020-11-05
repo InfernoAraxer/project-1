@@ -1,7 +1,5 @@
 package org.atan.views;
 
-//Check Email validity;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -26,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.atan.GUI;
 import org.atan.controller.ViewController;
 
 public class AccountCreationView extends JPanel {
@@ -138,7 +137,7 @@ public class AccountCreationView extends JPanel {
 					try {
 						String firstName = firstNameField.getText();
 						String lastName = lastNameField.getText();
-						String emailAddress = emailField.getText();
+						String emailAddress = emailField.getText().trim();
 						Long phoneNumber = Long.parseLong(phoneNumberField.getText());
 						char[] password = passwordField.getPassword();
 						char[] checkedPassword = recheckPassword.getPassword();
@@ -146,6 +145,10 @@ public class AccountCreationView extends JPanel {
 							toggleErrorMessage(true);
 						} else if (Long.toString(phoneNumber).length() != 10) {
 							changeErrorText("Please enter a valid phone number.");
+						} else if (!isValid(emailAddress)) {
+							changeErrorText("Please enter a valid email address.");
+						} else if (isUsed(emailAddress)) {
+							changeErrorText("That email address is already used.");
 						} else if (!String.valueOf(password).equals(String.valueOf(checkedPassword))) {
 							changeErrorText("Passwords are not the same.");
 						} else {
@@ -270,6 +273,30 @@ public class AccountCreationView extends JPanel {
 	
 	public void changeErrorText(String s) {
 		errorMessageLabel.setText(s);
+	}
+	
+	public boolean isValid(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
+	}
+	
+	public boolean isUsed(String email) {
+		for (int x = 0; x < GUI.students.size(); x++) {
+			if (GUI.students.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		for (int x = 0; x < GUI.teachers.size(); x++) {
+			if (GUI.teachers.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		for (int x = 0; x < GUI.admins.size(); x++) {
+			if (GUI.admins.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

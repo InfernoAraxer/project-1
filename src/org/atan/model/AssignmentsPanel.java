@@ -64,7 +64,7 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 	
 	private void createAssignmentName(Assignments assignment) {
 		assignmentName = new JLabel ("Assignment Name: " + assignment.getAssignmentName());
-		assignmentName.setBounds(10, 0, 275, 30);
+		assignmentName.setBounds(10, 0, 270, 30);
 		assignmentName.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		this.add(assignmentName);

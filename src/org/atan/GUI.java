@@ -15,12 +15,6 @@ import org.atan.model.ClassPanels;
 import org.atan.views.*;
 import org.atan.users.*;
 
-/*
- * 		JScrollPane scrollPane = new JScrollPane(views);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(50, 30, 50, 500);
- */
 @SuppressWarnings("serial")
 public class GUI extends JFrame{
 
@@ -88,7 +82,7 @@ public class GUI extends JFrame{
 		temp2.add(0);
 		
 		assignments.add(new Assignments("Project 1", "Make a GUI", "Nov. 1, 2020", ""));
-		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "r", "p", temp2));
+		teachers.add(new TeacherAccount("Ryan", "Wilson", 9083164173L, "rwilson@gmail.com", "p", temp2));
 		admins.add(new AdminAccount("God", "Account", 9320482333L, "l", "p"));
 		students.add(new StudentAccount("AlexTaneru", "Tan", 9083164190L, "x", "p", temp, tempString));
 		

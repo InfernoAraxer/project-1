@@ -185,14 +185,14 @@ public void createAccount(String firstName, String lastName, String emailAddress
     public void backToMain() {
     	if (activeStudentUser != null) {
     		((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
-            .clear();
+            .createActiveClasses();
     		((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])
             .populate(activeStudentUser);
     		switchTo(GUI.CLASS_VIEW);
     	} else if (activeTeacherUser != null) {
     		((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
-            .clear();
-    		((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
+            .createActiveClasses();
+            ((TeacherView) views.getComponents()[GUI.TEACHER_VIEW_INDEX])
             .populate(activeTeacherUser);
     		switchTo(GUI.TEACHER_VIEW);
     	} else if (activeAdminUser != null) {
@@ -214,11 +214,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	} else if (activeTeacherUser != null) {
     		activeTeacherUser.firstName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateTeacher(activeTeacherUser);
     	} else if (activeAdminUser != null) {
     		activeAdminUser.firstName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateAdmin(activeAdminUser);
     	}
     	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
         .changeSuccessMessage("Successfully Updated First Name.");
@@ -234,11 +234,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	} else if (activeTeacherUser != null) {
     		activeTeacherUser.lastName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateTeacher(activeTeacherUser);
     	} else if (activeAdminUser != null) {
     		activeAdminUser.lastName = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateAdmin(activeAdminUser);
     	}
     	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
         .changeSuccessMessage("Successfully Updated Last Name.");
@@ -254,11 +254,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	} else if (activeTeacherUser != null) {
     		activeTeacherUser.emailAddress = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateTeacher(activeTeacherUser);
     	} else if (activeAdminUser != null) {
     		activeAdminUser.emailAddress = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateAdmin(activeAdminUser);
     	}
     	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
         .changeSuccessMessage("Successfully Updated Email Address.");
@@ -274,11 +274,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	} else if (activeTeacherUser != null) {
     		activeTeacherUser.phoneNumber = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateTeacher(activeTeacherUser);
     	} else if (activeAdminUser != null) {
     		activeAdminUser.phoneNumber = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateAdmin(activeAdminUser);
     	}
     	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
         .changeSuccessMessage("Successfully Updated Phone Number.");
@@ -294,11 +294,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     	} else if (activeTeacherUser != null) {
     		activeTeacherUser.password = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateTeacher(activeTeacherUser);
     	} else if (activeAdminUser != null) {
     		activeAdminUser.password = s;
     		((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
+            .populateAdmin(activeAdminUser);
     	}
     	((SettingsView) views.getComponents()[GUI.SETTINGS_VIEW_INDEX])
         .changeSuccessMessage("Successfully Updated Password.");

@@ -88,6 +88,7 @@ public class LoginView extends JPanel{
 				Object source = e.getSource();
 				
 				if (source.equals(loginButton)) {
+					toggleCreateAccountMessage(false);
 					if (student.isSelected()) {
 						String emailAddress = emailField.getText();
 						char[] password = passwordField.getPassword();

@@ -1,8 +1,6 @@
 package org.atan.views;
 
-// how to automatically close JFrame when clicked away, ask john
-//Check Email validity;
-
+//Make a vaiable so if that vairble is tue then don't open any more dialogs and if they go back while the variable is open then it closes automatically
 
 import java.lang.ClassLoader;
 
@@ -347,10 +345,15 @@ public class SettingsView extends JPanel implements ActionListener{
 							manager.editLastName(textField.getText());
 							break;
 						case 3:
-							if (textField.getText().equals("")) {
-								errorMessageLabel.setText("Please enter an email address.");
+							if (textField.getText().equals("") || !isValid(textField.getText())) {
+								errorMessageLabel.setText("Please enter a valid email address.");
 								return;
 							}
+							if (isUsed(textField.getText().trim())) {
+								errorMessageLabel.setText("That email address is already used.");
+								return;
+							}
+							
 							manager.editEmailAddress(textField.getText());
 							break;
 						case 4:
@@ -412,6 +415,30 @@ public class SettingsView extends JPanel implements ActionListener{
 	
 	public void changeSuccessMessage(String s) {
 		createdMessageLabel.setText(s);
+	}
+	
+	public boolean isValid(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
+	}
+	
+	public boolean isUsed(String email) {
+		for (int x = 0; x < GUI.students.size(); x++) {
+			if (GUI.students.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		for (int x = 0; x < GUI.teachers.size(); x++) {
+			if (GUI.teachers.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		for (int x = 0; x < GUI.admins.size(); x++) {
+			if (GUI.admins.get(x).getEmailAddress().equals(email)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

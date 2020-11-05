@@ -1,7 +1,6 @@
 package org.atan.views;
 
 //make it so it shows error if a student already have class
-//make it there's a scroll
 //also make it an error if a student is taking 2 classes at the same time
 
 import java.lang.ClassLoader;
@@ -153,4 +152,5 @@ public class ClassShopView extends JPanel implements ActionListener{
 		this.removeAll();
 		this.init();
 	}
+	
 }

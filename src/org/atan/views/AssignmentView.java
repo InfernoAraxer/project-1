@@ -2,6 +2,7 @@ package org.atan.views;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -105,9 +106,12 @@ public class AssignmentView extends JPanel implements ActionListener{
 		this.removeAll();
 		this.init();
 		JPanel views = new JPanel(new CardLayout());
+		//JScrollPane scroll = new JScrollPane(views, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		views.add(new AssignmentsList(x), "CLASS_LIST");
 		views.setBounds(5, 65, 475, 100 * (GUI.classes.get(x).getAssignments().size() - 1));
+		
+		//scroll.setBounds(5, 65, 475, 200);
 		this.add(views);
 	}
 	

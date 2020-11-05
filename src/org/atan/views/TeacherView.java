@@ -1,7 +1,5 @@
 package org.atan.views;
 
-//add scroll bar if there are too many classes
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
