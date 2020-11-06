@@ -1,28 +1,18 @@
 package org.atan.model;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 
 
 import org.atan.GUI;
 import org.atan.controller.ViewController;
 import org.atan.users.Classes;
-import org.atan.users.TeacherAccount;
 import org.atan.users.*;
 
 public class AssignmentsPanel extends JPanel implements ActionListener{
@@ -33,12 +23,9 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 	private JLabel time;
 	private JLabel taught;
 	private JButton comments;
-	private ViewController manager;
-	private static TeacherAccount teacher;
 	public static int assignmentIndex;
 	private int assignmentID;
 	public int x;
-	private static String[] times = { "", "A 1/2", "A 3/4", "A 7/8", "A 9/10", "B 1/2", "B 3/4", "B 7/8", "B 9/10"};
 	
 	public AssignmentsPanel(int x, int y) {
 		super();
@@ -56,11 +43,6 @@ public class AssignmentsPanel extends JPanel implements ActionListener{
 		addTime(GUI.assignments.get(y));
 		
 	}
-/*	
-	public static void giveTeacherAccount(TeacherAccount teacher) {
-		ClassPanels.teacher = teacher;
-	}
-*/
 	
 	private void createAssignmentName(Assignments assignment) {
 		assignmentName = new JLabel ("Assignment Name: " + assignment.getAssignmentName());

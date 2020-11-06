@@ -305,15 +305,11 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public void goToShop() {
-    	if (activeStudentUser != null) {
-    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
-            .populateStudent(activeStudentUser);
-    		switchTo(GUI.CLASS_SHOP_VIEW);
-    	} else if (activeAdminUser != null) {
-    		((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
-            .populateAdmin(activeAdminUser);
-    		switchTo(GUI.CLASS_SHOP_VIEW);
-    	}
+    	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+        .reset();
+    	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+        .populateStudent(activeStudentUser);
+    	switchTo(GUI.CLASS_SHOP_VIEW);
     }
     
     
@@ -326,9 +322,28 @@ public void createAccount(String firstName, String lastName, String emailAddress
     }
     
     public static void addClass() {
+    	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+		.changeSuccessMessage("");
+    	((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+		.changeErrorText("");
+    	
     	for(int x = 0; x < GUI.students.size(); x++) {
-    		if(GUI.students.get(x) == activeStudentUser) {
+    		if (GUI.students.get(x) == activeStudentUser) {
+    			for (int y = 1; y < GUI.students.get(x).classes.size(); y++) {
+    				if (GUI.classes.get(GUI.students.get(x).classes.get(y)) == (GUI.classes.get(ClassPanels.addClass))) {
+    					((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+    					.changeErrorText("You already take this class.");
+    					return;
+    				}
+    				if (GUI.classes.get(GUI.students.get(x).classes.get(y)).getTime().equals(GUI.classes.get(ClassPanels.addClass).getTime())) {
+    					((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+    					.changeErrorText("You already have a class at this time.");
+    					return;
+    				}
+    			}
     			GUI.students.get(x).classes.add(ClassPanels.addClass);
+    			((ClassShopView) views.getComponents()[GUI.CLASS_SHOP_VIEW_INDEX])
+				.changeSuccessMessage("You successfully purchased this class.");
     		}
     	}
     	((ClassView) views.getComponents()[GUI.CLASS_VIEW_INDEX])

@@ -1,29 +1,15 @@
 package org.atan.views;
 
-//make it so it shows error if a student already have class
-//also make it an error if a student is taking 2 classes at the same time
-
-import java.lang.ClassLoader;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.atan.controller.ViewController;
@@ -32,7 +18,6 @@ import org.atan.users.AdminAccount;
 import org.atan.users.Classes;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
-import org.atan.views.*;
 
 public class ClassShopView extends JPanel implements ActionListener{
 
@@ -42,6 +27,8 @@ public class ClassShopView extends JPanel implements ActionListener{
 	private JButton logoutButton;
 	private JButton backButton;
 	private JButton settings;
+	private JLabel errorMessage;
+	private JLabel createdMessageLabel;
 	
 	public ClassShopView(ViewController manager) {
 		super();
@@ -60,6 +47,8 @@ public class ClassShopView extends JPanel implements ActionListener{
 		createSettingsIcon();
 		createBackButton();
 		createClassList();
+		createErrorMessage();
+		createSuccessMessage();
 	}
 	
 	private void createAccountName() {
@@ -144,7 +133,7 @@ public class ClassShopView extends JPanel implements ActionListener{
 		JPanel views = new JPanel(new CardLayout());
 		
 		views.add(new ClassList(), "CLASS_LIST");
-		views.setBounds(5, 65, 475, 100 * (int) (Classes.nextClassID - 5000000));
+		views.setBounds(5, 95, 475, 95 * (int) (Classes.nextClassID - 5000000));
 		this.add(views);
 	}
 	
@@ -153,4 +142,29 @@ public class ClassShopView extends JPanel implements ActionListener{
 		this.init();
 	}
 	
+	private void createErrorMessage() {
+		errorMessage = new JLabel("", SwingConstants.CENTER);
+        errorMessage.setBounds(0, 60, 500, 35);
+        errorMessage.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        errorMessage.setForeground(Color.RED);
+
+        this.add(errorMessage);
+	}
+	
+	public void changeErrorText(String s) {
+		errorMessage.setText(s);
+	}
+	
+	public void createSuccessMessage() {
+        createdMessageLabel = new JLabel("", SwingConstants.CENTER);
+        createdMessageLabel.setBounds(0, 60, 500, 35);
+        createdMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 12));
+        createdMessageLabel.setForeground(Color.GREEN);
+
+        this.add(createdMessageLabel);
+	}
+	
+	public void changeSuccessMessage(String s) {
+			createdMessageLabel.setText(s);
+	}
 }

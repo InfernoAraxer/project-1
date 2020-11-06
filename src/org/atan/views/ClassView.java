@@ -6,29 +6,19 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import org.atan.controller.ViewController;
-import org.atan.model.ClassList;
 import org.atan.model.ClassPanels;
-import org.atan.users.Classes;
 import org.atan.users.StudentAccount;
-import org.atan.users.TeacherAccount;
 
 public class ClassView extends JPanel implements ActionListener{
 	

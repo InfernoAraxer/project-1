@@ -1,27 +1,14 @@
 package org.atan.views;
 
-//check this
-
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.FileDialog;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.*;
-import java.nio.file.Files;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -30,7 +17,6 @@ import org.atan.GUI;
 import org.atan.controller.ViewController;
 import org.atan.model.AssignmentsPanel;
 import org.atan.model.ClassPanels;
-import org.atan.users.AdminAccount;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
 
@@ -54,7 +40,7 @@ public class CommentsView extends JPanel implements ActionListener{
 	private JLabel fileName;
 	private JButton fileDownload;
 	private JButton settings;
-	private JComboBox studentSelection;
+	private JComboBox<String> studentSelection;
 	private JButton selectStudent;
 	private long studentID;
 	
@@ -152,7 +138,7 @@ public class CommentsView extends JPanel implements ActionListener{
 				(GUI.students.get((int) (manager.getActiveStudentUser().getStudentID() - 1000000))).fileIndex.add(assignmentID);
 				fileName.setText(file.getName());
 			} else {
-				//print error that no file was selected
+
 			}
 		} else if (source.equals(settings)) {
 			manager.settings();
@@ -162,7 +148,7 @@ public class CommentsView extends JPanel implements ActionListener{
 				fc.setDialogTitle("Save a File");
 				fc.showSaveDialog(null);
 			} catch (Exception e1) {
-				//throw error
+
 			}
 		} else if (source.equals(selectStudent)) {
 			for (int x = 0; x < GUI.students.size(); x++) {
@@ -303,9 +289,6 @@ public class CommentsView extends JPanel implements ActionListener{
 		fileDownload.addActionListener(this);
 		
 		this.add(fileDownload);
-		
-		//make it so if button was ckicked and no file exit, an error would appear.
-		//Also make it so that a file is actually downloaded
 	}
 	
 	private void createStudentSelection(boolean isTeacher) {
@@ -333,7 +316,6 @@ public class CommentsView extends JPanel implements ActionListener{
 			this.add(studentSelection);
 			this.add(selectStudent);
 		}
-		
 		
 	}
     

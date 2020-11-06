@@ -1,7 +1,5 @@
 package org.atan.users;
 
-import java.util.ArrayList;
-
 public class Assignments {
 	
 	public static long nextAssignmentID = 6000000L;

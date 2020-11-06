@@ -1,28 +1,16 @@
 package org.atan.views;
 
-//Make a vaiable so if that vairble is tue then don't open any more dialogs and if they go back while the variable is open then it closes automatically
-
-import java.lang.ClassLoader;
-
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -32,9 +20,6 @@ import org.atan.controller.ViewController;
 import org.atan.users.AdminAccount;
 import org.atan.users.StudentAccount;
 import org.atan.users.TeacherAccount;
-import org.atan.views.*;
-
-import javax.swing.ImageIcon;
 
 public class SettingsView extends JPanel implements ActionListener{
 	
@@ -64,6 +49,8 @@ public class SettingsView extends JPanel implements ActionListener{
 	private JPasswordField recheckPasswordField;
 	private JLabel errorMessageLabel;
 	private JLabel createdMessageLabel;
+	
+	private boolean open = false;
 	
 	public SettingsView(ViewController manager) {
 		super();
@@ -216,16 +203,18 @@ public class SettingsView extends JPanel implements ActionListener{
 		Object source = e.getSource();
 		
 		if (source.equals(logoutButton)) {
+			dialog.dispose();
+			open = false;
 			manager.logout();
-		} else if (source.equals(editFirstName)) {
+		} else if (source.equals(editFirstName) && open == false) {
 			setUpPanel("What do you want to change your first name to?", 1);
-		} else if (source.equals(editLastName)) {
+		} else if (source.equals(editLastName) && open == false) {
 			setUpPanel("What do you want to change your last name to?", 2);
-		} else if (source.equals(editPhoneNumber)) {
+		} else if (source.equals(editPhoneNumber) && open == false) {
 			setUpPanel("What do you want to change your phone number to?", 4);
-		} else if (source.equals(editEmailAddress)) {
+		} else if (source.equals(editEmailAddress) && open == false) {
 			setUpPanel("What do you want to change your email address to?", 3);
-		} else if (source.equals(editPassword)) {
+		} else if (source.equals(editPassword) && open == false) {
 			setUpPanel("What do you want to change your password to?", 5);
 		}
 		
@@ -240,6 +229,8 @@ public class SettingsView extends JPanel implements ActionListener{
 				Object source = e.getSource();
 				
 				if (source.equals(backButton)) {
+					dialog.dispose();
+					open = false;
 					manager.backToMain();
 				}
 			}
@@ -312,6 +303,7 @@ public class SettingsView extends JPanel implements ActionListener{
 				
 				if (source.equals(returnButton)) {
 					dialog.dispose();
+					open = false;
 				} 
 			}
 		});
@@ -336,6 +328,7 @@ public class SettingsView extends JPanel implements ActionListener{
 								return;
 							}
 							manager.editFirstName(textField.getText());
+							open = false;
 							break;
 						case 2:
 							if (textField.getText().equals("")) {
@@ -343,6 +336,7 @@ public class SettingsView extends JPanel implements ActionListener{
 								return;
 							}
 							manager.editLastName(textField.getText());
+							open = false;
 							break;
 						case 3:
 							if (textField.getText().equals("") || !isValid(textField.getText())) {
@@ -353,8 +347,8 @@ public class SettingsView extends JPanel implements ActionListener{
 								errorMessageLabel.setText("That email address is already used.");
 								return;
 							}
-							
 							manager.editEmailAddress(textField.getText());
+							open = false;
 							break;
 						case 4:
 							try {
@@ -369,6 +363,7 @@ public class SettingsView extends JPanel implements ActionListener{
 									return;
 								}
 								manager.editPhoneNumber(Long.parseLong(textField.getText()));
+								open = false;
 								break;
 							} catch (Exception e1) {
 								errorMessageLabel.setText("The phone number is not valid.");
@@ -386,6 +381,7 @@ public class SettingsView extends JPanel implements ActionListener{
 								return;
 							}
 							manager.editPassword(password);
+							open = false;
 							break;
 					}
 					dialog.dispose();
@@ -402,6 +398,7 @@ public class SettingsView extends JPanel implements ActionListener{
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
 		dialog.setVisible(true);
+		open = true;
 	}
 	
 	public void createSuccessMessage() {

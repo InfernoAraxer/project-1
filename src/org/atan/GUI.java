@@ -6,12 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.atan.controller.ViewController;
-import org.atan.model.ClassList;
-import org.atan.model.ClassPanels;
 import org.atan.views.*;
 import org.atan.users.*;
 
@@ -52,8 +49,7 @@ public class GUI extends JFrame{
 	public static ArrayList<StudentAccount> students;
 	public static ArrayList<Assignments> assignments;
 	public static ArrayList<File> files;
-	
-	@SuppressWarnings("static-access")
+
 	public GUI() {
 		super("UCVTS Course Management Software");
 		
@@ -89,7 +85,7 @@ public class GUI extends JFrame{
 		classes = new ArrayList<Classes>();	
 		
 		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
-		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 3/4", temp3));
+		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 1/2", temp3));
 		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8", temp4));
 		
 	}
