@@ -3,6 +3,7 @@ package org.atan.views;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -42,7 +43,6 @@ public class CommentsView extends JPanel implements ActionListener{
 	private JButton settings;
 	private JComboBox<String> studentSelection;
 	private JButton selectStudent;
-	private long studentID;
 	
 	public CommentsView(ViewController manager) {
 		super();
@@ -135,7 +135,7 @@ public class CommentsView extends JPanel implements ActionListener{
 				GUI.files.add(file);
 				String assignmentID = Long.toString(AssignmentsPanel.assignmentIndex + 6000000);
 				assignmentID += Long.toString(GUI.files.size() - 1);
-				(GUI.students.get((int) (manager.getActiveStudentUser().getStudentID() - 1000000))).fileIndex.add(assignmentID);
+				(GUI.students.get((int) (manager.getActiveStudentUser().getStudentID() - 1000001))).fileIndex.add(assignmentID);
 				fileName.setText(file.getName());
 			} else {
 
@@ -152,11 +152,12 @@ public class CommentsView extends JPanel implements ActionListener{
 			}
 		} else if (source.equals(selectStudent)) {
 			for (int x = 0; x < GUI.students.size(); x++) {
-				if (GUI.students.get(x).getStudentID() == studentID) {
-					for (int y = 0; y < GUI.students.get(x).fileIndex.size(); y++) {
+				if (GUI.students.get(x).getName().equals(studentSelection.getSelectedItem())) {
+					for (int y = 1; y < GUI.students.get(x).fileIndex.size(); y++) {
 						if (GUI.students.get(x).fileIndex.get(y).substring(0,7).equals(Long.toString(AssignmentsPanel.assignmentIndex + 6000000))) {
 							int fileIndex = Integer.parseInt(GUI.students.get(x).fileIndex.get(y).substring(7));
 							fileName.setText(GUI.files.get(fileIndex).getName());
+							return;
 						}
 					}
 				}
@@ -292,18 +293,20 @@ public class CommentsView extends JPanel implements ActionListener{
 	}
 	
 	private void createStudentSelection(boolean isTeacher) {
-		String[] studentsName = new String[GUI.students.size() + 1];
-		studentsName[0] = "";
-		int position = 1;
+		ArrayList<String> studentNamesArray = new ArrayList<>();
+		
 		if (isTeacher) {
-			for(int x = 0; x < studentsName.length - 1; x++) {
+			for(int x = 0; x < GUI.students.size(); x++) {
 				for(int y = 1; y < GUI.students.get(x).classes.size(); y++) {
 					if (GUI.students.get(x).classes.get(y) == ClassPanels.assignmentClass) {
-						studentsName[position] = GUI.students.get(x).getName();
-						position++;
-						studentID = GUI.students.get(x).getStudentID();
+						studentNamesArray.add(GUI.students.get(x).getName());
 					}
 				}
+			}
+			String[] studentsName = new String[studentNamesArray.size() + 1];
+			studentsName[0] = "";
+			for(int x = 1; x < studentNamesArray.size() + 1; x++) {
+				studentsName[x] = studentNamesArray.get(x - 1);
 			}
 			
 			studentSelection = new JComboBox<String>(studentsName);
