@@ -203,8 +203,10 @@ public class SettingsView extends JPanel implements ActionListener{
 		Object source = e.getSource();
 		
 		if (source.equals(logoutButton)) {
-			dialog.dispose();
-			open = false;
+			if (open == true) {
+				dialog.dispose();
+				open = false;
+			}
 			manager.logout();
 		} else if (source.equals(editFirstName) && open == false) {
 			setUpPanel("What do you want to change your first name to?", 1);
@@ -229,8 +231,10 @@ public class SettingsView extends JPanel implements ActionListener{
 				Object source = e.getSource();
 				
 				if (source.equals(backButton)) {
-					dialog.dispose();
-					open = false;
+					if (open == true) {
+						dialog.dispose();
+						open = false;						
+					}
 					manager.backToMain();
 				}
 			}
