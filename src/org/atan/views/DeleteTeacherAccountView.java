@@ -142,7 +142,6 @@ public class DeleteTeacherAccountView extends JPanel implements ActionListener{
 				
 				
 				if (source.equals(submitButton)) {
-					try {
 						String teacherName = teacherAccounts.getSelectedItem().toString();
 						char[] passwordArray = password.getPassword();
 						if (teacherName.equals("") || String.valueOf(passwordArray).equals("")) {
@@ -153,9 +152,6 @@ public class DeleteTeacherAccountView extends JPanel implements ActionListener{
 							return;
 						}
 						manager.deleteTeacher(teacherName);
-					} catch (Exception e1) {
-						
-					}
 				}
 			}
 		});
@@ -205,9 +201,8 @@ public class DeleteTeacherAccountView extends JPanel implements ActionListener{
 	}
 	
 	public void clear() {
-		password.setText("");
-		teacherAccounts.setSelectedItem("");
-		errorMessageLabel.setText("");
+		this.removeAll();
+		this.init();
 	}
 	
 	public void createErrorMessageLabel() {

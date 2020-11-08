@@ -203,9 +203,8 @@ public class DeleteStudentAccountView extends JPanel implements ActionListener{
 	}
 	
 	public void clear() {
-		password.setText("");
-		studentAccounts.setSelectedItem("");
-		errorMessageLabel.setText("");
+		this.removeAll();
+		this.init();
 	}
 	
 	public void createErrorMessageLabel() {

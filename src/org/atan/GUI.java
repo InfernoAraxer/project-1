@@ -53,7 +53,7 @@ public class GUI extends JFrame{
 	public GUI() {
 		super("UCVTS Course Management Software");
 		
-		/*  - Testing Code or some accounts and classes
+		//  - Testing Code or some accounts and classes
 		teachers = new ArrayList<TeacherAccount>();
 		students = new ArrayList<StudentAccount>();
 		admins = new ArrayList<AdminAccount>();
@@ -88,7 +88,7 @@ public class GUI extends JFrame{
 		classes.add(new Classes("Advanced Software Development", teachers.get(0), "A 1/2", temp1));
 		classes.add(new Classes("AP Computer Science", teachers.get(0), "A 1/2", temp3));
 		classes.add(new Classes("AP Microeconomics", teachers.get(0), "A 7/8", temp4));
-		*/
+		//*/
 		
 	}
 	
